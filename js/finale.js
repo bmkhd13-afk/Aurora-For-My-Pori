@@ -117,7 +117,6 @@ Momo
 </span>
 
 `;
-if(document.getElementById("replayButton")) return;
 if(!document.getElementById("replayButton")){
 
     const replay=document.createElement("button");
@@ -144,28 +143,16 @@ if(!document.getElementById("replayButton")){
 
         });
 
+        // Allow the name sequence to play again when we scroll back down
+        setTimeout(()=>{
+
+            endingPlayed = false;
+
+        },1000);
+
     };
 
 }
-
-replay.onclick=()=>{
-
-window.scrollTo({
-
-top:0,
-
-behavior:"smooth"
-
-});
-
-// Allow the animation to play again
-setTimeout(()=>{
-
-endingPlayed = false;
-
-},1000);
-
-};
 
 },2200);
 
