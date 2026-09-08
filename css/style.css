@@ -1238,6 +1238,8 @@ opacity:.3;
 
 position:fixed;
 
+pointer-events:none;
+
 left:0;
 top:0;
 
@@ -1253,11 +1255,12 @@ filter:
 
 drop-shadow(0 0 10px rgba(255,255,255,.25));
 
+/* No transition on left/top on purpose: Tom fades out, teleports, then
+   fades back in. Sliding would drag him straight across the words on the
+   way to his new spot. The .34s here must match FADE in js/tom.js. */
 transition:
 
-opacity .6s ease,
-left 1.1s cubic-bezier(.22,.9,.3,1),
-top 1.1s cubic-bezier(.22,.9,.3,1),
+opacity .34s ease,
 transform .3s ease;
 
 }
@@ -1265,6 +1268,8 @@ transform .3s ease;
 #tom.visible{
 
 opacity:.95;
+
+pointer-events:auto;
 
 }
 
@@ -1294,6 +1299,63 @@ transform:translateY(0);
 50%{
 
 transform:translateY(-6px);
+
+}
+
+}
+
+/* After a remark Tom scurries off and buzzes: mostly still, with a quick
+   shiver every couple of seconds to ask for another tap. */
+
+#tom.buzzing{
+
+animation:tomBuzz 2.4s ease-in-out infinite;
+
+}
+
+@keyframes tomBuzz{
+
+0%,74%{
+
+transform:translateY(0) rotate(0deg);
+
+filter:drop-shadow(0 0 10px rgba(255,255,255,.25));
+
+}
+
+78%{
+
+transform:translateY(-3px) rotate(-7deg);
+
+filter:drop-shadow(0 0 16px rgba(160,210,255,.6));
+
+}
+
+82%{
+
+transform:translateY(-3px) rotate(7deg);
+
+}
+
+86%{
+
+transform:translateY(-2px) rotate(-5deg);
+
+}
+
+90%{
+
+transform:translateY(-1px) rotate(4deg);
+
+filter:drop-shadow(0 0 16px rgba(160,210,255,.6));
+
+}
+
+94%,100%{
+
+transform:translateY(0) rotate(0deg);
+
+filter:drop-shadow(0 0 10px rgba(255,255,255,.25));
 
 }
 
@@ -1386,7 +1448,8 @@ transition:opacity .6s ease;
 
 }
 
-#tom.idle{
+#tom.idle,
+#tom.buzzing{
 
 animation:none;
 
@@ -2128,4 +2191,20 @@ border-radius:50%;
 
 }
 
+
+/* A smaller Tom on phones. At 90px he could not fit beside a memory card on
+   a 390px screen, so he was hiding almost the whole way down. */
+#tom{
+
+width:62px;
+
+}
+
+#tomBubble{
+
+max-width:200px;
+
+font-size:.78rem;
+
+}
 }
