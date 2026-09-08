@@ -987,19 +987,128 @@ margin-bottom:60px;
 
 }
 
+/* The sky must be SQUARE. The star map is an azimuthal projection whose
+   horizon is a circle, and the memory stars are positioned with left/top
+   percentages - x% of the width and y% of the height. In a 1000x600 box
+   those are different pixel scales, which both squashes the sky into an
+   ellipse and puts the stars in the wrong places. */
+
 #sky{
 
 position:relative;
 
 width:100%;
 
-height:600px;
+max-width:620px;
+
+aspect-ratio:1 / 1;
 
 margin:auto;
 
-max-width:1000px;
+}
+
+.skyMap{
+
+position:absolute;
+
+inset:0;
+
+width:100%;
+
+height:100%;
+
+overflow:visible;
 
 }
+
+.skyHorizon{
+
+/* Dark enough that the real stars read against the aurora behind them. */
+fill:rgba(3,7,18,.68);
+
+stroke:rgba(150,200,255,.38);
+
+stroke-width:.25;
+
+}
+
+.skyFigureLine{
+
+stroke:rgba(160,205,255,.5);
+
+stroke-width:.2;
+
+stroke-linecap:round;
+
+}
+
+.skyStar{
+
+fill:#fff;
+
+}
+
+.skyCompass{
+
+fill:rgba(190,215,255,.55);
+
+font-family:'Inter',sans-serif;
+
+font-size:2.6px;
+
+letter-spacing:.4px;
+
+}
+
+.memoryLine{
+
+stroke:#6dd5ff;
+
+stroke-width:.34;
+
+stroke-linecap:round;
+
+filter:drop-shadow(0 0 1px rgba(109,213,255,.9));
+
+animation:memoryLineDraw .9s ease forwards;
+
+}
+
+@keyframes memoryLineDraw{
+
+from{
+
+opacity:0;
+
+}
+
+to{
+
+opacity:1;
+
+}
+
+}
+
+.skyCaption{
+
+text-align:center;
+
+margin-top:18px;
+
+font-size:.78rem;
+
+letter-spacing:1.5px;
+
+text-transform:uppercase;
+
+opacity:.5;
+
+}
+
+/* A memory star is a <button> now, so it needs the button chrome stripped.
+   translate(-50%,-50%) centres it on its sky coordinate rather than hanging
+   the top-left corner there. */
 
 .star{
 
@@ -1009,6 +1118,18 @@ width:18px;
 
 height:18px;
 
+padding:0;
+
+border:none;
+
+-webkit-appearance:none;
+
+appearance:none;
+
+/* Buttons default to overflow:hidden in Chromium, which silently clipped the
+   star name away - it had full opacity and real dimensions but was invisible. */
+overflow:visible;
+
 border-radius:50%;
 
 background:white;
@@ -1017,13 +1138,36 @@ cursor:pointer;
 
 box-shadow:0 0 15px white;
 
+transform:translate(-50%,-50%);
+
 transition:.4s;
+
+animation:memoryStarPulse 3.4s ease-in-out infinite;
 
 }
 
-.star:hover{
+@keyframes memoryStarPulse{
 
-transform:scale(1.6);
+0%,100%{
+
+box-shadow:0 0 12px rgba(255,255,255,.85);
+
+}
+
+50%{
+
+box-shadow:0 0 26px rgba(255,255,255,1);
+
+}
+
+}
+
+.star:hover,
+.star:focus-visible{
+
+transform:translate(-50%,-50%) scale(1.6);
+
+outline:none;
 
 }
 
@@ -1031,9 +1175,50 @@ transform:scale(1.6);
 
 background:#6dd5ff;
 
+animation:none;
+
 box-shadow:
 
 0 0 30px #6dd5ff;
+
+}
+
+/* The real star's name, revealed once the memory is unlocked. */
+
+.starLabel{
+
+position:absolute;
+
+left:50%;
+
+top:150%;
+
+transform:translateX(-50%);
+
+white-space:nowrap;
+
+font-size:.7rem;
+
+letter-spacing:1.4px;
+
+text-transform:uppercase;
+
+color:#cfe8ff;
+
+text-shadow:0 0 10px rgba(0,0,0,.95),0 0 4px rgba(0,0,0,.9);
+
+opacity:0;
+
+pointer-events:none;
+
+transition:opacity .6s ease;
+
+}
+
+.star.active .starLabel,
+.star:hover .starLabel{
+
+opacity:1;
 
 }
 
@@ -1892,53 +2077,9 @@ transform:scale(1);
 
 }
 
-.line{
+/* The old .line / growLine rules lived here. Constellation lines are SVG
+   <line> elements now (see .memoryLine), so those rules were dead. */
 
-position:absolute;
-
-height:2px;
-
-background:
-
-linear-gradient(
-
-90deg,
-
-#6dd5ff,
-
-white
-
-);
-
-transform-origin:left center;
-
-animation:
-
-growLine
-
-.8s ease forwards;
-
-box-shadow:
-
-0 0 15px #6dd5ff;
-
-}
-
-@keyframes growLine{
-
-from{
-
-scale:0 1;
-
-}
-
-to{
-
-scale:1 1;
-
-}
-
-}
 
 @keyframes paperRise{
 
