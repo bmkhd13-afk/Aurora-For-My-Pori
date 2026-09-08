@@ -119,26 +119,6 @@ if(!document.getElementById("continueFinale")){
 }
 }
 
-setInterval(()=>{
-
-if(paper.style.display!=="block") return;
-
-const s=document.createElement("div");
-
-s.className="letterStar";
-
-s.style.left=Math.random()*100+"vw";
-
-s.style.animationDuration=
-
-Math.random()*5+5+"s";
-
-document.body.appendChild(s);
-
-setTimeout(()=>{
-
-s.remove();
-
-},9000);
-
-},400);
+// The falling-star ambience used to live here as a setInterval that never
+// stopped and appended to document.body. It now lives in js/finale.js,
+// scoped to the finale section. See "finale falling stars" there.

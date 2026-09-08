@@ -1901,9 +1901,15 @@ scale(1);
 
 }
 
-.letterStar{
+/* Falling stars inside the finale. Renamed from .letterStar: the effect used
+   to be spawned by letter.js into document.body and landed at the bottom of
+   the page. It now spawns inside #finalStars. */
+
+.finaleStar{
 
 position:absolute;
+
+top:0;
 
 width:2px;
 
@@ -1915,11 +1921,13 @@ border-radius:50%;
 
 opacity:.6;
 
-animation:letterFall linear forwards;
+pointer-events:none;
+
+animation:finaleFall linear forwards;
 
 }
 
-@keyframes letterFall{
+@keyframes finaleFall{
 
 from{
 
@@ -1939,9 +1947,11 @@ opacity:.6;
 
 to{
 
+/* JS sets --fallDistance to the finale's real height, which is taller
+   than the viewport once the ending message renders. */
 transform:
 
-translateY(110vh);
+translateY(var(--fallDistance,110vh));
 
 opacity:0;
 

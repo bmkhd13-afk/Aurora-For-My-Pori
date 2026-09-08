@@ -3,15 +3,91 @@ const endingMessage=document.getElementById("endingMessage");
 const endingContent = document.getElementById("endingContent");
 let endingPlayed = false;
 
+/* ---------- finale falling stars ----------
+   Moved here from js/letter.js, where it ran on a setInterval that never
+   stopped and appended stars to document.body - they piled up at the very
+   bottom of the page instead of inside a scene. Now they live inside the
+   finale's own star layer and only spawn while the finale is on screen. */
+
+const finaleStarLayer=document.getElementById("finalStars");
+
+let finaleStarTimer=null;
+
+function spawnFinaleStar(){
+
+if(!finaleStarLayer) return;
+
+// Set the fall distance on the LAYER, not on each star, so it is inherited.
+// The finale grows taller when the ending message renders, and stars that
+// are already falling need to pick up the new height too.
+finaleStarLayer.style.setProperty("--fallDistance",finaleStarLayer.clientHeight+"px");
+
+const s=document.createElement("div");
+
+s.className="finaleStar";
+
+s.style.left=Math.random()*100+"%";
+
+s.style.animationDuration=Math.random()*5+5+"s";
+
+finaleStarLayer.appendChild(s);
+
+setTimeout(()=>{
+
+s.remove();
+
+},10000);
+
+}
+
+function startFinaleStars(){
+
+if(finaleStarTimer) return;
+
+finaleStarTimer=setInterval(spawnFinaleStar,400);
+
+}
+
+function stopFinaleStars(){
+
+clearInterval(finaleStarTimer);
+
+finaleStarTimer=null;
+
+// Clear any stars still mid-fall so nothing keeps animating off screen.
+if(finaleStarLayer){
+
+finaleStarLayer
+
+.querySelectorAll(".finaleStar")
+
+.forEach(s=>s.remove());
+
+}
+
+}
+
 const finaleObserver=new IntersectionObserver(entries=>{
 
 entries.forEach(entry=>{
 
-if(entry.isIntersecting && !endingPlayed){
+if(entry.isIntersecting){
+
+startFinaleStars();
+
+if(!endingPlayed){
 
 endingPlayed = true;
 
 playEnding();
+
+}
+
+}
+
+else{
+
+stopFinaleStars();
 
 }
 
