@@ -2069,4 +2069,59 @@ padding:30px;
 
 }
 
+
+/* ---- mobile sizing pass ----
+   These use clamp(min, preferred, max) so the value scales with the screen
+   instead of jumping at a breakpoint. The desktop maximum is unchanged. */
+
+/* #endingName is an ID, so the h1 rule above could never override it -
+   it stayed at 6rem (96px) on a 375px phone and wrapped to three lines. */
+#endingName{
+
+font-size:clamp(2.6rem,12vw,6rem);
+
+line-height:1.1;
+
+word-break:break-word;
+
+}
+
+h1{
+
+font-size:clamp(2.6rem,11vw,3.2rem);
+
+}
+
+.memoryText h2{
+
+font-size:clamp(2rem,8vw,3rem);
+
+}
+
+#chapter1{
+
+padding:60px 20px;
+
+}
+
+#constellation{
+
+padding:90px 16px;
+
+}
+
+/* Keep the constellation stars looking the same but give them a finger-sized
+   hit area - 18x18 is well under the 44px touch guideline. */
+.star::before{
+
+content:"";
+
+position:absolute;
+
+inset:-13px;
+
+border-radius:50%;
+
+}
+
 }
