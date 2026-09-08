@@ -108,15 +108,35 @@ bgMusic.play().catch(() => {
 
 const container = document.getElementById("memoryContainer");
 
-memories.forEach((memory,index)=>{
+// Build the whole list as one string and assign it once. The old code did
+// container.innerHTML += inside the loop, which re-parsed the entire section
+// on every pass and threw away and re-created the <img> elements each time.
+const escapeAttr=s=>String(s)
+.replace(/&/g,"&amp;")
+.replace(/"/g,"&quot;")
+.replace(/</g,"&lt;");
+
+const memoryHTML=memories.map((memory,index)=>{
 
 const side=index%2===0?"left":"right";
 
-container.innerHTML+=`
+const divider=index<memories.length-1
+?`<div class="sceneDivider"><span>✦</span></div>`
+:"";
+
+// width/height come from memories.js. They do not change the rendered size
+// (CSS still controls that) - they let the browser reserve the right space
+// before the photo arrives, so nothing jumps as lazy-loaded images appear.
+return `
 
 <section class="memory ${side}">
 
-<img src="${memory.image}">
+<img src="${memory.image}"
+alt="${escapeAttr(memory.title)}"
+width="${memory.w}"
+height="${memory.h}"
+loading="lazy"
+decoding="async">
 
 <div class="memoryText">
 
@@ -134,21 +154,13 @@ Memory ${index+1}
 
 </section>
 
-${
-index < memories.length - 1
-?
-`
-<div class="sceneDivider">
-    <span>✦</span>
-</div>
-`
-:
-""
-}
+${divider}
 
 `;
 
-});
+}).join("");
+
+container.innerHTML=memoryHTML;
 
 const observer=new IntersectionObserver(entries=>{
 
@@ -195,7 +207,20 @@ particleContainer.appendChild(p);
 
 }
 
-window.addEventListener("scroll",()=>{
+/* One passive, rAF-throttled scroll handler for the progress bar.
+
+   There used to be a second scroll listener that wrote an inline
+   translateY() to every .memory img for a parallax effect. It never worked:
+   .memory img runs the imageReveal animation with animation-fill-mode
+   forwards, and a filling animation overrides inline styles, so the computed
+   transform stayed at the identity matrix no matter what JS wrote. It was
+   measured doing nothing on every single scroll event, so it is gone. */
+
+const progressBar=document.getElementById("progressBar");
+
+let scrollTicking=false;
+
+function updateProgress(){
 
 const height=
 
@@ -203,28 +228,22 @@ document.documentElement.scrollHeight-
 
 window.innerHeight;
 
-const progress=
+const progress=height>0?(window.scrollY/height)*100:0;
 
-(window.scrollY/height)*100;
+progressBar.style.width=progress+"%";
 
-document.getElementById("progressBar").style.width=
+scrollTicking=false;
 
-progress+"%";
-
-});
-
-const memoryImages = document.querySelectorAll(".memory img");
+}
 
 window.addEventListener("scroll",()=>{
 
-memoryImages.forEach(img=>{
+if(scrollTicking) return;
 
-const rect=img.getBoundingClientRect();
+scrollTicking=true;
 
-const speed=rect.top*0.03;
+requestAnimationFrame(updateProgress);
 
-img.style.transform=`translateY(${speed}px)`;
+},{passive:true});
 
-});
-
-});
+updateProgress();

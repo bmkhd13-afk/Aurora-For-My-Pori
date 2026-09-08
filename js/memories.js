@@ -2,6 +2,8 @@ const memories = [
 
 {
 image:"assets/images/photo1.jpg",
+w:1721,
+h:2560,
 title:"Where It All Began",
 text:`Our very first meetup.
 
@@ -18,6 +20,8 @@ I don't think we ever really left that conversation.`
 
 {
 image:"assets/images/photo2.jpg",
+w:1920,
+h:2560,
 title:"The Blue Saree",
 text:`It might have been our third date...
 
@@ -35,6 +39,8 @@ my brain completely stopped working.`
 
 {
 image:"assets/images/photo3.jpg",
+w:2560,
+h:1920,
 title:"Social Distancing??",
 text:`North End, Tejgaon.
 
@@ -53,6 +59,8 @@ they were jealous of how good we looked together. 😌`
 
 {
 image:"assets/images/photo4.jpg",
+w:1080,
+h:1920,
 title:"The Elegant Disaster",
 text:`Remember when I accidentally poured my food onto our dresses?
 
@@ -67,6 +75,8 @@ Some accidents deserve to happen. ❤️`
 
 {
 image:"assets/images/photo5.jpg",
+w:2560,
+h:1920,
 title:"Heaven Sent",
 text:`Our first Eid outing.
 
@@ -81,6 +91,8 @@ you genuinely looked like one.`
 
 {
 image:"assets/images/photo6.jpg",
+w:1920,
+h:2560,
 title:"Matching Hearts",
 text:`The day we exchanged polo shirts.
 
@@ -95,6 +107,8 @@ they're wearable memories.`
 
 {
 image:"assets/images/photo7.jpg",
+w:2560,
+h:1920,
 title:"Extra Chatpata",
 text:`Madchef DMD.
 
@@ -111,6 +125,8 @@ Would definitely repeat.`
 
 {
 image:"assets/images/photo8.jpg",
+w:2560,
+h:1920,
 title:"Worth Every Mile",
 text:`Hundreds of miles.
 
@@ -127,6 +143,8 @@ Every single time.`
 
 {
 image:"assets/images/photo9.jpg",
+w:2560,
+h:1920,
 title:"Lunch Break Love",
 text:`We missed each other so much...
 
@@ -145,6 +163,8 @@ Worth every minute.`
 
 {
 image:"assets/images/photo10.jpg",
+w:2560,
+h:1923,
 title:"Little Gifts",
 text:`The gifts themselves were special.
 
@@ -157,6 +177,8 @@ A memory I'll always keep close to my heart.`
 
 {
 image:"assets/images/photo11.jpg",
+w:2560,
+h:1920,
 title:"Home",
 text:`InterContinental.
 

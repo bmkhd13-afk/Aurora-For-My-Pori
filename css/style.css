@@ -849,6 +849,10 @@ flex-direction:row-reverse;
 
 width:42%;
 
+/* Required companion to the width/height attributes in main.js: without it
+   the height attribute is used literally and the photo renders full size. */
+height:auto;
+
 max-width:520px;
 
 border-radius:24px;
