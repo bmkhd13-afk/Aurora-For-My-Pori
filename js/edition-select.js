@@ -116,3 +116,55 @@ document.body.appendChild(tag);
 });
 
 }
+
+/* ---------- which scenes this edition shows ----------
+
+   By default an edition shows everything. Add a line like
+
+       scenes: hero, memories, letter, finale
+
+   to leave one out - a Valentine's edition with no constellation, say.
+   Leaving the line out entirely means "show them all", which is the least
+   surprising default. */
+
+const SCENE_SECTIONS={
+
+hero:"hero",
+
+memories:"chapter1",
+
+constellation:"constellation",
+
+letter:"letter",
+
+finale:"finale"
+
+};
+
+if(EDITION&&EDITION.scenes){
+
+for(const scene in SCENE_SECTIONS){
+
+if(EDITION.scenes.indexOf(scene)===-1){
+
+const el=document.getElementById(SCENE_SECTIONS[scene]);
+
+if(el) el.style.display="none";
+
+}
+
+}
+
+EDITION.scenes.forEach(s=>{
+
+if(!SCENE_SECTIONS[s]){
+
+editionProblem(EDITION.source,'Unknown scene "'+s+'". Known scenes are '+
+
+Object.keys(SCENE_SECTIONS).join(", ")+".");
+
+}
+
+});
+
+}

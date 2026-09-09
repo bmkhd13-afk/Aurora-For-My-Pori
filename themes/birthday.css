@@ -1,0 +1,162 @@
+/* ===========================================================================
+   HER BIRTHDAY - 22 December
+
+   Winter and candlelight. Gold and tangerine on a near-black blue, because
+   December is komla season and tangerines are already one of our motifs.
+   Marcellus for the headings - it has a quiet, carved, celebratory feel.
+
+   Every rule starts with [data-occasion="birthday"], so this file is
+   completely inert unless a birthday edition is showing.
+   =========================================================================== */
+
+[data-occasion="birthday"] #globalSky{
+
+background:#03060f;
+
+}
+
+[data-occasion="birthday"] .ribbon1{
+
+background:linear-gradient(90deg,transparent,#f59e0b,#fef3c7,transparent);
+
+}
+
+[data-occasion="birthday"] .ribbon2{
+
+background:linear-gradient(90deg,transparent,#ea580c,#fdba74,transparent);
+
+}
+
+[data-occasion="birthday"] .ribbon3{
+
+background:linear-gradient(90deg,transparent,#1e3a8a,#bfdbfe,transparent);
+
+}
+
+[data-occasion="birthday"] h1,
+[data-occasion="birthday"] h2,
+[data-occasion="birthday"] #endingName{
+
+font-family:'Marcellus',serif;
+
+letter-spacing:2px;
+
+}
+
+[data-occasion="birthday"] h1{
+
+text-shadow:
+
+0 0 22px rgba(254,243,199,.24),
+
+0 0 60px rgba(245,158,11,.26);
+
+}
+
+[data-occasion="birthday"] #progressBar{
+
+background:linear-gradient(90deg,#fef3c7,#f59e0b);
+
+}
+
+/* Candlelight from the top rather than a cold glow. */
+
+[data-occasion="birthday"] #chapter1{
+
+background:
+
+radial-gradient(circle at top,rgba(245,158,11,.22),transparent 40%),
+
+linear-gradient(180deg,rgba(3,6,15,.6),rgba(10,16,32,.44),rgba(18,14,10,.58));
+
+}
+
+[data-occasion="birthday"] .memoryNumber{
+
+color:#fbbf24;
+
+}
+
+[data-occasion="birthday"] .sceneDivider span{
+
+color:#fdba74;
+
+}
+
+[data-occasion="birthday"] .memory img{
+
+box-shadow:0 25px 70px rgba(0,0,0,.6),0 0 0 1px rgba(251,191,36,.16);
+
+}
+
+[data-occasion="birthday"] button{
+
+border-color:rgba(251,191,36,.45);
+
+}
+
+[data-occasion="birthday"] button:hover{
+
+background:rgba(254,243,199,.95);
+
+color:#241703;
+
+box-shadow:0 0 45px rgba(245,158,11,.45);
+
+}
+
+[data-occasion="birthday"] .skyHorizon{
+
+fill:rgba(3,7,20,.7);
+
+stroke:rgba(251,191,36,.3);
+
+}
+
+[data-occasion="birthday"] .skyFigureLine{
+
+stroke:rgba(254,243,199,.4);
+
+}
+
+[data-occasion="birthday"] .memoryLine{
+
+stroke:#fbbf24;
+
+filter:drop-shadow(0 0 1px rgba(251,191,36,.9));
+
+}
+
+[data-occasion="birthday"] .star.active{
+
+background:#fbbf24;
+
+box-shadow:0 0 30px #fbbf24;
+
+}
+
+[data-occasion="birthday"] .starLabel{
+
+color:#fde68a;
+
+}
+
+[data-occasion="birthday"] #seal{
+
+background:radial-gradient(circle,#f59e0b,#7c2d12);
+
+}
+
+/* Falling tangerines instead of falling stars: small, round, warm. */
+
+[data-occasion="birthday"] .finaleStar{
+
+width:6px;
+
+height:6px;
+
+background:radial-gradient(circle at 35% 30%,#fed7aa,#ea580c);
+
+opacity:.75;
+
+}

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Check the editions</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="assets/icons/favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:dark;}
+body{margin:0;background:#080c16;color:#e6edf7;font-family:'Inter',system-ui,sans-serif;
+     line-height:1.6;padding:40px 20px 90px;}
+.wrap{max-width:820px;margin:0 auto;}
+h1{font-size:1.8rem;margin:0 0 6px;font-weight:600;}
+.sub{opacity:.55;font-size:.9rem;margin-bottom:34px;}
+h2{font-size:1.05rem;margin:34px 0 12px;font-weight:600;letter-spacing:.3px;}
+.card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);
+      border-radius:14px;padding:18px 20px;margin-bottom:14px;}
+.row{display:flex;gap:11px;align-items:flex-start;padding:7px 0;font-size:.92rem;}
+.ok::before{content:"✓";color:#4ade80;font-weight:700;flex:0 0 16px;}
+.bad::before{content:"✕";color:#f87171;font-weight:700;flex:0 0 16px;}
+.warn::before{content:"!";color:#fbbf24;font-weight:700;flex:0 0 16px;}
+.info::before{content:"·";color:#93c5fd;font-weight:700;flex:0 0 16px;}
+.title{font-size:1.15rem;font-weight:600;margin-bottom:2px;}
+.meta{opacity:.55;font-size:.82rem;margin-bottom:12px;}
+code{background:rgba(255,255,255,.09);padding:2px 7px;border-radius:5px;
+     font-size:.86rem;font-family:ui-monospace,Menlo,Consolas,monospace;}
+pre{background:rgba(255,255,255,.07);padding:13px 15px;border-radius:9px;
+    overflow-x:auto;font-size:.84rem;margin:10px 0 0;}
+.banner{border-radius:14px;padding:16px 20px;margin-bottom:26px;font-weight:600;}
+.allgood{background:rgba(74,222,128,.13);border:1px solid rgba(74,222,128,.4);}
+.problems{background:rgba(248,113,113,.13);border:1px solid rgba(248,113,113,.4);}
+.live{display:inline-block;margin-top:4px;font-size:.82rem;opacity:.75;}
+a{color:#93c5fd;}
+.tag{display:inline-block;font-size:.68rem;letter-spacing:1.4px;text-transform:uppercase;
+     padding:3px 9px;border-radius:999px;border:1px solid rgba(255,255,255,.25);
+     opacity:.75;margin-left:8px;vertical-align:middle;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>Check the editions</h1>
+<p class="sub">Everything this page finds wrong, in plain English.
+Open it with Live Server after adding or editing an edition.</p>
+
+<div id="out">Reading…</div>
+
+</div>
+
+<script src="js/star-catalog.js"></script>
+<script src="js/sky.js"></script>
+<script src="js/edition-format.js"></script>
+<script>
+/* This page reads index.html to find out which editions exist, so the list of
+   editions only ever lives in one place. */
+
+const out=document.getElementById("out");
+
+function el(tag,cls,html){
+  const e=document.createElement(tag);
+  if(cls) e.className=cls;
+  if(html!==undefined) e.innerHTML=html;
+  return e;
+}
+function row(kind,html){ return el("div","row "+kind,html); }
+
+// Does a file actually exist? A HEAD request is enough and costs nothing.
+function exists(url){
+  return fetch(url,{method:"HEAD"})
+    .then(r=>r.ok)
+    .catch(()=>false);
+}
+
+function loadScript(src){
+  return new Promise(resolve=>{
+    const s=document.createElement("script");
+    s.src=src;
+    s.onload=()=>resolve(true);
+    s.onerror=()=>resolve(false);
+    document.head.appendChild(s);
+  });
+}
+
+(async function(){
+
+  let html;
+  try{
+    html=await (await fetch("index.html")).text();
+  }catch(err){
+    out.innerHTML="";
+    out.appendChild(el("div","banner problems",
+      "This page has to be opened through Live Server."));
+    out.appendChild(el("p","",
+      "In VS Code, right-click <code>check.html</code> and choose "+
+      "<b>Open with Live Server</b>. Opening the file directly stops the "+
+      "browser from reading your other files."));
+    return;
+  }
+
+  const files=[...html.matchAll(/<script\s+src="(editions\/[^"]+)"/g)].map(m=>m[1]);
+
+  out.innerHTML="";
+
+  if(!files.length){
+    out.appendChild(el("div","banner problems","No editions are listed in index.html."));
+    out.appendChild(el("p","","Add a line like <code>&lt;script src=\"editions/2027-valentines.js\"&gt;&lt;/script&gt;</code> inside the EDITIONS block."));
+    return;
+  }
+
+  const missingFiles=[];
+  for(const f of files){
+    const ok=await loadScript(f);
+    if(!ok) missingFiles.push(f);
+  }
+
+  /* ---- headline ---- */
+  const banner=el("div","banner");
+  out.appendChild(banner);
+
+  const problemBox=el("div","card");
+  problemBox.appendChild(el("div","title","Problems"));
+  let problemCount=EDITION_PROBLEMS.length+missingFiles.length;
+
+  missingFiles.forEach(f=>{
+    problemBox.appendChild(row("bad","index.html lists <code>"+f+
+      "</code> but that file is not there. Check the spelling, or remove the line."));
+  });
+  EDITION_PROBLEMS.forEach(p=>{
+    problemBox.appendChild(row("bad","<b>"+p.where+"</b> — "+p.message));
+  });
+
+  /* ---- which one is live ---- */
+  const today=new Date(); today.setHours(23,59,59,999);
+  const arrived=EDITIONS.filter(e=>e.date<=today).sort((a,b)=>b.date-a.date);
+  const live=arrived[0];
+
+  const liveCard=el("div","card");
+  liveCard.appendChild(el("div","title","Showing right now"));
+  if(live){
+    liveCard.appendChild(row("ok","<b>"+live.occasionName+" "+live.year+
+      "</b> — because it is the most recent date that has passed."));
+  }else{
+    liveCard.appendChild(row("warn",
+      "No edition's date has arrived yet, so the earliest one is showing."));
+  }
+  const future=EDITIONS.filter(e=>e.date>today).sort((a,b)=>a.date-b.date);
+  future.forEach(e=>{
+    liveCard.appendChild(row("info","<b>"+e.occasionName+" "+e.year+
+      "</b> takes over on "+e.date.toLocaleDateString("en-GB",
+      {day:"numeric",month:"long",year:"numeric"})+
+      ' — <a href="index.html?preview='+e.id+'">preview it</a>'));
+  });
+  out.appendChild(liveCard);
+
+  /* ---- each edition ---- */
+  out.appendChild(el("h2","","Every edition"));
+
+  for(const e of EDITIONS.slice().sort((a,b)=>a.date-b.date)){
+    const card=el("div","card");
+    card.appendChild(el("div","title",e.occasionName+" "+e.year+
+      (e===live?'<span class="tag">live</span>':"")));
+    card.appendChild(el("div","meta",
+      e.date.toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"})+
+      " · "+e.memories.length+" memories · "+e.source));
+
+    // photos
+    let missing=0;
+    for(const m of e.memories){
+      if(!(await exists(m.src))){
+        card.appendChild(row("bad","Photo not found: <code>"+m.src+
+          "</code> (from the memory “"+m.title+"”)"));
+        missing++;
+      }else if(!m.w||!m.h){
+        card.appendChild(row("warn","<code>"+m.photo+
+          "</code> has no width/height, so the page will jump a little as it loads."));
+      }
+    }
+    if(!missing&&e.memories.length){
+      card.appendChild(row("ok","All "+e.memories.length+" photos found."));
+    }
+    if(!e.memories.length){
+      card.appendChild(row("warn","This edition has no memories in it yet."));
+    }
+
+    // music
+    if(e.music){
+      card.appendChild(row(await exists(e.music)?"ok":"bad",
+        (await exists(e.music)?"Music found: ":"Music not found: ")+"<code>"+e.music+"</code>"));
+    }else{
+      card.appendChild(row("warn","No music set for this edition."));
+    }
+
+    // letter and finale
+    card.appendChild(row(e.letter?"ok":"warn",
+      e.letter?"Letter written ("+e.letter.length+" characters).":"No letter in this edition."));
+    card.appendChild(row(e.finale.sequence&&e.finale.sequence.length?"ok":"warn",
+      e.finale.sequence&&e.finale.sequence.length
+        ?"Ending shows: "+e.finale.sequence.join(" → ")
+        :"No name: line in the finale block."));
+
+    // the sky
+    if(e.sky){
+      const s=computeSky(e.sky);
+      const sun=sunAltitude(e.sky);
+      card.appendChild(row("ok","Sky over "+s.meta.place+" on "+s.meta.when+
+        " — "+s.meta.starCount+" stars, "+s.meta.constellations+" constellations."));
+      if(sun>0){
+        card.appendChild(row("warn","The sun was still "+sun.toFixed(0)+
+          "° above the horizon at that time, so this is a daylight sky — the stars "+
+          "were really there but nobody could see them. Use a time after dark "+
+          "(about 7pm or later) if you would rather have the sky she could see."));
+      }else if(sun>-12){
+        card.appendChild(row("info","Twilight — the sun was just below the horizon."));
+      }
+      // star anchors
+      const up={}; s.stars.forEach(x=>up[x.id]=x);
+      e.constellation.forEach(c=>{
+        if(up[c.anchor]){
+          card.appendChild(row("ok","“"+c.title+"” is pinned to "+up[c.anchor].name+"."));
+        }else{
+          const known=STARS.some(x=>x[0]===c.anchor);
+          card.appendChild(row("bad","“"+c.title+"” is pinned to <code>"+c.anchor+"</code>, which "+
+            (known?"was below the horizon that night, so it will not appear."
+                 :"is not a star in the catalogue.")+
+            " Stars that were up: "+s.stars.slice()
+              .sort((a,b)=>a.mag-b.mag).slice(0,12).map(x=>"<code>"+x.id+"</code>").join(", ")+"…"));
+          problemCount++;
+        }
+      });
+    }else if(e.constellation.length){
+      card.appendChild(row("warn","This edition has star blocks but no <code>sky:</code> line, "+
+        "so the constellation falls back to the 2026 anniversary sky."));
+    }
+
+    out.appendChild(card);
+  }
+
+  /* ---- how to add another ---- */
+  const help=el("div","card");
+  help.appendChild(el("div","title","Adding the next one"));
+  help.appendChild(el("div","",
+    "1. Copy <code>editions/_template.js</code> and rename it, for example "+
+    "<code>2027-valentines.js</code>.<br>"+
+    "2. Put its photos in <code>assets/editions/2027-valentines/</code>.<br>"+
+    "3. Add this line inside the EDITIONS block in <code>index.html</code>:"));
+  help.appendChild(el("pre","",
+    "&lt;script src=\"editions/2027-valentines.js\"&gt;&lt;/script&gt;"));
+  help.appendChild(el("div","live",
+    "Or use <a href=\"builder.html\">the builder</a>, which writes the file for you."));
+  out.appendChild(help);
+
+  /* ---- finish the banner ---- */
+  if(problemCount){
+    banner.className="banner problems";
+    banner.textContent=problemCount+(problemCount===1?" problem found":" problems found")+
+      " — see below.";
+    out.insertBefore(problemBox,out.children[1]);
+  }else{
+    banner.className="banner allgood";
+    banner.textContent="Everything looks good. "+EDITIONS.length+
+      (EDITIONS.length===1?" edition":" editions")+" loaded, no problems.";
+  }
+})();
+</script>
+</body>
+</html>

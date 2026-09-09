@@ -231,8 +231,15 @@ return edition;
 
 }
 
-/* Called by every edition file. */
+/* Called by every edition file. The file name is worked out on its own, so
+   problem messages can say which file to go and fix. */
 function addEdition(text,sourceName){
+
+if(!sourceName&&typeof document!=="undefined"&&document.currentScript){
+
+sourceName=document.currentScript.src.split("/").pop();
+
+}
 
 let edition;
 

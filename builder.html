@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Build an edition</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="assets/icons/favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:dark;}
+*{box-sizing:border-box;}
+body{margin:0;background:#080c16;color:#e6edf7;font-family:'Inter',system-ui,sans-serif;
+     line-height:1.6;padding:36px 20px 120px;}
+.wrap{max-width:900px;margin:0 auto;}
+h1{font-size:1.9rem;margin:0 0 6px;font-weight:600;}
+.sub{opacity:.55;font-size:.92rem;margin-bottom:30px;}
+h2{font-size:1.05rem;margin:32px 0 14px;font-weight:600;}
+.card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);
+      border-radius:14px;padding:20px;margin-bottom:16px;}
+label{display:block;font-size:.78rem;letter-spacing:1.2px;text-transform:uppercase;
+      opacity:.6;margin:14px 0 6px;}
+label:first-child{margin-top:0;}
+input,select,textarea{width:100%;background:rgba(255,255,255,.07);color:#e6edf7;
+  border:1px solid rgba(255,255,255,.16);border-radius:9px;padding:11px 13px;
+  font-family:inherit;font-size:.95rem;line-height:1.55;}
+textarea{resize:vertical;min-height:96px;}
+input:focus,select:focus,textarea:focus{outline:none;border-color:#93c5fd;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+button{background:#93c5fd;color:#0a1020;border:none;border-radius:999px;
+  padding:12px 26px;font-family:inherit;font-weight:600;font-size:.95rem;cursor:pointer;
+  transition:.25s;}
+button:hover{background:#bfdbfe;}
+button.ghost{background:transparent;color:#93c5fd;border:1px solid rgba(147,197,253,.45);}
+button.ghost:hover{background:rgba(147,197,253,.12);}
+button.danger{background:transparent;color:#f87171;border:1px solid rgba(248,113,113,.4);
+  padding:6px 14px;font-size:.8rem;}
+.drop{border:2px dashed rgba(255,255,255,.22);border-radius:14px;padding:34px 20px;
+  text-align:center;opacity:.75;cursor:pointer;transition:.25s;}
+.drop.over{border-color:#93c5fd;background:rgba(147,197,253,.08);opacity:1;}
+.memory{border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:16px;
+  margin-bottom:12px;background:rgba(255,255,255,.03);}
+.memHead{display:flex;align-items:center;gap:13px;margin-bottom:10px;}
+.memHead img{width:58px;height:58px;object-fit:cover;border-radius:8px;flex:0 0 58px;}
+.memHead .name{font-size:.8rem;opacity:.6;flex:1;word-break:break-all;}
+pre{background:rgba(255,255,255,.07);padding:15px;border-radius:10px;overflow-x:auto;
+    font-size:.8rem;font-family:ui-monospace,Menlo,Consolas,monospace;max-height:420px;
+    white-space:pre-wrap;word-break:break-word;}
+.note{font-size:.86rem;opacity:.62;margin-top:9px;}
+.steps{counter-reset:s;padding:0;list-style:none;margin:0;}
+.steps li{counter-increment:s;padding:9px 0 9px 38px;position:relative;font-size:.93rem;}
+.steps li::before{content:counter(s);position:absolute;left:0;top:9px;width:24px;height:24px;
+  border-radius:50%;background:rgba(147,197,253,.18);color:#93c5fd;font-size:.78rem;
+  font-weight:700;display:flex;align-items:center;justify-content:center;}
+code{background:rgba(255,255,255,.09);padding:2px 7px;border-radius:5px;font-size:.85rem;
+     font-family:ui-monospace,Menlo,Consolas,monospace;}
+.bar{position:fixed;left:0;right:0;bottom:0;background:rgba(8,12,22,.96);
+  border-top:1px solid rgba(255,255,255,.12);padding:14px 20px;
+  display:flex;gap:12px;justify-content:center;align-items:center;
+  backdrop-filter:blur(10px);}
+.warn{color:#fbbf24;font-size:.86rem;}
+a{color:#93c5fd;}
+@media(max-width:640px){.grid2{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>Build an edition</h1>
+<p class="sub">Fill this in, drag your photos on, then press Download.
+You never have to type any code.</p>
+
+<div class="card">
+  <h2 style="margin-top:0">The basics</h2>
+  <div class="grid2">
+    <div>
+      <label for="occasion">Occasion</label>
+      <select id="occasion">
+        <option value="girlfriend-day">Girlfriend Day — 1 August</option>
+        <option value="anniversary">Our Anniversary — 13 April</option>
+        <option value="valentines">Valentine's Day — 14 February</option>
+        <option value="birthday">Her Birthday — 22 December</option>
+      </select>
+    </div>
+    <div>
+      <label for="year">Year</label>
+      <input id="year" type="number" min="2020" max="2100" step="1">
+    </div>
+  </div>
+
+  <label for="title">Big title</label>
+  <input id="title" value="My Pori ❤️">
+
+  <label for="dedication">Small line above the title</label>
+  <input id="dedication" value="For the girl who turned ordinary nights into auroras...">
+
+  <label for="subtitle">Line under the title</label>
+  <input id="subtitle" value="An Interactive Story for Umme Arefin Akhand Momo">
+
+  <div class="grid2">
+    <div>
+      <label for="button">Button</label>
+      <input id="button" value="✨ Take My Hand">
+    </div>
+    <div>
+      <label for="music">Music file</label>
+      <input id="music" placeholder="assets/music/valentines.mp3">
+    </div>
+  </div>
+
+  <label for="loader">Loading line</label>
+  <input id="loader" value="Gathering our favorite memories... ❤️">
+</div>
+
+<div class="card">
+  <h2 style="margin-top:0">The night sky <span style="opacity:.5;font-weight:400;font-size:.85rem">— optional</span></h2>
+  <div class="grid2">
+    <div>
+      <label for="skyDate">Date</label>
+      <input id="skyDate" type="date">
+    </div>
+    <div>
+      <label for="skyTime">Time</label>
+      <input id="skyTime" type="time" value="21:00">
+    </div>
+  </div>
+  <label for="skyPlace">Place</label>
+  <select id="skyPlace">
+    <option>Dhaka</option>
+    <option>Shahjahanpur</option>
+    <option>Mohammadpur</option>
+  </select>
+  <div id="skyInfo" class="note"></div>
+</div>
+
+<div class="card">
+  <h2 style="margin-top:0">The photos</h2>
+  <div class="drop" id="drop">
+    Drag your photos here, or click to choose them.<br>
+    <span style="font-size:.84rem;opacity:.7">Their sizes are read automatically, so the page never jumps.</span>
+  </div>
+  <input type="file" id="files" accept="image/*" multiple hidden>
+  <div id="memories" style="margin-top:16px"></div>
+</div>
+
+<div class="card">
+  <h2 style="margin-top:0">The letter</h2>
+  <textarea id="letter" rows="8" placeholder="Written out one character at a time on the page."></textarea>
+</div>
+
+<div class="card">
+  <h2 style="margin-top:0">The ending</h2>
+  <label for="finaleName">Words that appear one after another</label>
+  <input id="finaleName" value="Umme | Umme Arefin | Umme Arefin Akhand | Umme Arefin Akhand Momo | ❤️ My Pori ❤️">
+  <label for="finaleMsg">Closing message</label>
+  <textarea id="finaleMsg" rows="6" placeholder="A blank line starts a new paragraph."></textarea>
+  <label for="signoff">Sign-off</label>
+  <input id="signoff" value="Made with love by Dhrubo for his Momo">
+</div>
+
+<h2>What you get</h2>
+<div class="card">
+  <div id="warnings"></div>
+  <pre id="preview"></pre>
+</div>
+
+<h2>What to do with it</h2>
+<div class="card">
+  <ol class="steps">
+    <li>Press <b>Download</b>. Save the file into the <code>editions</code> folder.</li>
+    <li>Make the folder <code id="folder">assets/editions/…</code> and put those same photos in it.</li>
+    <li>Open <code>index.html</code>, find the <b>EDITIONS</b> block, and add this line:
+      <pre id="scriptLine" style="margin-top:8px"></pre></li>
+    <li>Open <a href="check.html">check.html</a> with Live Server. It will tell you if anything is wrong.</li>
+  </ol>
+</div>
+
+</div>
+
+<div class="bar">
+  <button id="download">Download the edition file</button>
+  <button class="ghost" id="copy">Copy instead</button>
+</div>
+
+<script src="js/star-catalog.js"></script>
+<script src="js/sky.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+const OCC_DATE={"girlfriend-day":[8,1],"anniversary":[4,13],"valentines":[2,14],"birthday":[12,22]};
+
+let memories=[];
+
+$("year").value=new Date().getFullYear();
+
+function pad(n){return String(n).padStart(2,"0");}
+
+function editionDate(){
+  const d=OCC_DATE[$("occasion").value];
+  return $("year").value+"-"+pad(d[0])+"-"+pad(d[1]);
+}
+function editionId(){
+  return $("year").value+"-"+$("occasion").value;
+}
+
+/* ---- photos ---- */
+$("drop").onclick=()=>$("files").click();
+$("drop").ondragover=e=>{e.preventDefault();$("drop").classList.add("over");};
+$("drop").ondragleave=()=>$("drop").classList.remove("over");
+$("drop").ondrop=e=>{
+  e.preventDefault();
+  $("drop").classList.remove("over");
+  addFiles(e.dataTransfer.files);
+};
+$("files").onchange=e=>addFiles(e.target.files);
+
+/* Keep the order you dropped them in. Images finish loading in whatever order
+   the browser decodes them, so a plain push() would shuffle your photos - the
+   reason each one reserves its slot first and fills it in afterwards. */
+function addFiles(fileList){
+  const chosen=[...fileList].filter(f=>/^image\//.test(f.type));
+  const start=memories.length;
+  chosen.forEach((file,i)=>{
+    const slot=start+i;
+    memories[slot]={name:file.name,w:0,h:0,url:URL.createObjectURL(file),
+                    title:"",text:"",pending:true};
+    const img=new Image();
+    img.onload=()=>{
+      memories[slot].w=img.naturalWidth;
+      memories[slot].h=img.naturalHeight;
+      memories[slot].pending=false;
+      renderMemories();
+    };
+    img.onerror=()=>{
+      memories[slot].pending=false;
+      renderMemories();
+    };
+    img.src=memories[slot].url;
+  });
+  renderMemories();
+}
+
+function renderMemories(){
+  const box=$("memories");
+  box.innerHTML="";
+  memories.forEach((m,i)=>{
+    const d=document.createElement("div");
+    d.className="memory";
+    d.innerHTML=
+      '<div class="memHead">'+
+        '<img src="'+m.url+'" alt="">'+
+        '<span class="name">'+m.name+'<br>'+
+          (m.pending?"reading size…":m.w+" × "+m.h)+'</span>'+
+        '<button class="danger" data-up="'+i+'">↑</button>'+
+        '<button class="danger" data-del="'+i+'">Remove</button>'+
+      '</div>'+
+      '<label>Title</label><input data-title="'+i+'" value="'+
+        m.title.replace(/"/g,"&quot;")+'">'+
+      '<label>The story</label><textarea data-text="'+i+'" rows="4">'+
+        m.text.replace(/</g,"&lt;")+'</textarea>';
+    box.appendChild(d);
+  });
+  box.querySelectorAll("[data-title]").forEach(el=>{
+    el.oninput=()=>{memories[+el.dataset.title].title=el.value;update();};
+  });
+  box.querySelectorAll("[data-text]").forEach(el=>{
+    el.oninput=()=>{memories[+el.dataset.text].text=el.value;update();};
+  });
+  box.querySelectorAll("[data-del]").forEach(el=>{
+    el.onclick=()=>{memories.splice(+el.dataset.del,1);renderMemories();update();};
+  });
+  box.querySelectorAll("[data-up]").forEach(el=>{
+    el.onclick=()=>{
+      const i=+el.dataset.up;
+      if(i>0){const t=memories[i-1];memories[i-1]=memories[i];memories[i]=t;}
+      renderMemories();update();
+    };
+  });
+  update();
+}
+
+/* ---- the sky readout ---- */
+function skyWhen(){
+  if(!$("skyDate").value) return null;
+  const [y,m,d]=$("skyDate").value.split("-").map(Number);
+  const [hh,mm]=($("skyTime").value||"21:00").split(":").map(Number);
+  return {year:y,month:m,day:d,hour:hh+mm/60,place:$("skyPlace").value};
+}
+
+function updateSky(){
+  const when=skyWhen();
+  if(!when){ $("skyInfo").textContent="Leave the date empty for no star map."; return; }
+  const s=computeSky(when);
+  const sun=sunAltitude(when);
+  let msg=s.meta.starCount+" stars were above "+s.meta.place+", in "+
+          s.meta.constellations+" constellations.";
+  if(sun>0){
+    msg+=' <span class="warn">The sun was still '+sun.toFixed(0)+
+         "° up then, so this is a daylight sky. Try a time after 7pm.</span>";
+  }
+  $("skyInfo").innerHTML=msg;
+}
+
+/* ---- build the file ---- */
+function buildText(){
+  const L=[];
+  L.push("/* ---------------------------------------------------------------------");
+  L.push("   "+$("occasion").selectedOptions[0].text.split(" — ")[0]+" "+$("year").value);
+  L.push("");
+  L.push("   Only the addEdition line below and the last line are code.");
+  L.push("   Everything between them is plain text you can edit freely.");
+  L.push("   --------------------------------------------------------------------- */");
+  L.push("");
+  L.push("addEdition(`");
+  L.push("");
+  L.push("occasion: "+$("occasion").value);
+  L.push("date: "+editionDate());
+  L.push("title: "+$("title").value);
+  L.push("dedication: "+$("dedication").value);
+  L.push("subtitle: "+$("subtitle").value);
+  L.push("button: "+$("button").value);
+  L.push("loader: "+$("loader").value);
+  if($("music").value) L.push("music: "+$("music").value);
+  const when=skyWhen();
+  if(when){
+    L.push("");
+    L.push("sky: "+$("skyDate").value+" "+($("skyTime").value||"21:00"));
+    L.push("sky-place: "+$("skyPlace").value);
+  }
+  L.push("");
+  memories.forEach(m=>{
+    L.push("--- memory ---");
+    L.push("photo: "+m.name);
+    L.push("title: "+(m.title||"Untitled"));
+    L.push("width: "+m.w);
+    L.push("height: "+m.h);
+    L.push(m.text||"");
+    L.push("");
+  });
+  if($("letter").value.trim()){
+    L.push("--- letter ---");
+    L.push($("letter").value.trim());
+    L.push("");
+  }
+  if($("finaleName").value.trim()||$("finaleMsg").value.trim()){
+    L.push("--- finale ---");
+    L.push("name: "+$("finaleName").value);
+    if($("signoff").value) L.push("signoff: "+$("signoff").value);
+    L.push($("finaleMsg").value.trim());
+    L.push("");
+  }
+  L.push("`);");
+  L.push("");
+  return L.join("\n");
+}
+
+function update(){
+  updateSky();
+  const text=buildText();
+  $("preview").textContent=text;
+  $("folder").textContent="assets/editions/"+editionId()+"/";
+  $("scriptLine").textContent='<script src="editions/'+editionId()+'.js"><\/script>';
+
+  /* The one thing that can genuinely break the file is a backtick in the
+     text, because that is what marks where the text ends. */
+  const body=text.slice(text.indexOf("addEdition(`")+12,text.lastIndexOf("`);"));
+  const w=[];
+  if(body.indexOf("`")!==-1) w.push("Remove the ` (backtick) characters from your text — that character marks where the text ends, so it would break the file.");
+  if(body.indexOf("${")!==-1) w.push("Remove the ${ from your text — it has a special meaning here.");
+  if(!memories.length) w.push("No photos added yet.");
+  memories.forEach((m,i)=>{ if(!m.title) w.push("Memory "+(i+1)+" ("+m.name+") has no title."); });
+  $("warnings").innerHTML=w.length
+    ? '<div class="warn" style="margin-bottom:12px">'+w.map(x=>"• "+x).join("<br>")+"</div>"
+    : "";
+}
+
+["occasion","year","title","dedication","subtitle","button","music","loader",
+ "skyDate","skyTime","skyPlace","letter","finaleName","finaleMsg","signoff"]
+ .forEach(id=>{ $(id).oninput=update; $(id).onchange=update; });
+
+$("occasion").onchange=()=>{
+  const d=OCC_DATE[$("occasion").value];
+  $("skyDate").value=$("year").value+"-"+pad(d[0])+"-"+pad(d[1]);
+  update();
+};
+
+$("download").onclick=()=>{
+  const blob=new Blob([buildText().replace(/\n/g,"\r\n")],
+    {type:"text/javascript;charset=utf-8"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download=editionId()+".js";
+  a.click();
+};
+
+$("copy").onclick=async ()=>{
+  try{
+    await navigator.clipboard.writeText(buildText());
+    $("copy").textContent="Copied";
+    setTimeout(()=>$("copy").textContent="Copy instead",1600);
+  }catch(e){
+    $("copy").textContent="Select the text above instead";
+  }
+};
+
+const d0=OCC_DATE[$("occasion").value];
+$("skyDate").value=$("year").value+"-"+pad(d0[0])+"-"+pad(d0[1]);
+update();
+</script>
+</body>
+</html>

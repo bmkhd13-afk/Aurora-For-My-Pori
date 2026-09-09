@@ -170,6 +170,9 @@ Responsible for:
 
 Important: inspect the actual current file before editing because it has been patched multiple times.
 
+NOTE (Sept 2026): this file no longer exists. Memory content lives in the
+edition files now - see section 13.
+
 ### js/memories.js
 Contains the memory data array used by main.js to generate the memory scenes.
 
@@ -459,3 +462,91 @@ Then fix the highest-impact polish issues in this order:
 
 Do not add major new architecture until these are stable.
 
+
+---
+
+## 13. The editions system (added September 2026)
+
+The site is no longer one fixed story. It is a shell that renders whichever
+**edition** is current, and every occasion in every year is one edition.
+
+This was an explicit, considered request from the owner, not a suggested
+redesign. Section 9's "do not redesign the information architecture" still
+stands for anything unprompted.
+
+### The four occasions
+
+| Occasion | Date | Slug |
+|---|---|---|
+| Girlfriend Day | 1 August | `girlfriend-day` |
+| Our Anniversary | 13 April | `anniversary` |
+| Valentine's Day | 14 February | `valentines` |
+| Her Birthday | 22 December | `birthday` |
+
+### How it works
+
+- One file per edition in `editions/`, named `<year>-<slug>.js`.
+- Each is registered with one `<script>` line inside the `EDITIONS` block in
+  `index.html`. That block is the single place editions are listed; both
+  `check.html` and `builder.html` read `index.html` to discover them rather
+  than keeping a second list.
+- Inside an edition file the content is **plain text**, not code: `key: value`
+  settings and `--- memory ---` / `--- letter ---` / `--- finale ---` /
+  `--- star ---` blocks. Only the first line (`addEdition(\``) and last
+  (`` `); ``) are code.
+- Parsing never throws. Problems go into `EDITION_PROBLEMS` and are reported
+  by `check.html` in plain English.
+- `js/edition-select.js` picks the most recent edition whose date has passed,
+  sets `data-occasion` and `data-edition` on `<html>`, and exposes `EDITION`.
+- Themes live in `themes/*.css`, every rule scoped to `[data-occasion="..."]`,
+  so all four load but only one applies.
+- `?preview=<id>` shows a future edition with a banner. `?archive` shows the
+  shelf of everything so far.
+
+### Why `.js` and not `.json` or `.txt`
+
+Those need `fetch()`, which is blocked when `index.html` is opened by
+double-clicking. The site currently works that way and that was preserved
+deliberately. `builder.html` and `check.html` do use `fetch`, but they are
+tools opened through Live Server, so that is fine.
+
+### The sky is computed in the browser now
+
+`js/sky.js` works out the real sky for any date, time and place from
+`js/star-catalog.js` (152 bright stars, 24 constellation figures). An edition
+just declares `sky: 2027-04-13 21:00` and `sky-place: Dhaka`. Verified
+identical to the previously pre-generated data for 13 April 2026 — same 96
+stars, same 80 lines, zero positional difference.
+
+Places are Dhaka, Shahjahanpur and Mohammadpur only. The owner was explicit:
+always Dhaka. The two neighbourhoods are ~7km apart, which is astronomically
+irrelevant, but the caption naming the real place matters.
+
+`sunAltitude()` lets `check.html` warn when a chosen time was in daylight.
+
+### Authoring, for a non-coder
+
+- `builder.html` — a form. Reads photo dimensions automatically, previews the
+  sky, warns about backticks, and downloads a ready edition file.
+- `check.html` — validates everything and reports in plain English: missing
+  photos, missing music, bad dates, stars that were below the horizon.
+- `editions/_template.js` — a fully commented blank.
+- `ADDING-A-NEW-EDITION.md` — the guide written for the owner.
+
+### The one real fragility
+
+A backtick in an edition file's text ends the template literal and breaks
+that file. Everything else degrades gracefully. This is called out in the
+template, the builder, the README and the guide.
+
+### Things that were removed
+
+- `js/memories.js` — content is edition data now.
+- `js/skydata.js` and the whole `tools/` folder — the browser computes it.
+- Photos moved from `assets/images/` to `assets/editions/<id>/`.
+
+### Test suites (in the scratchpad, not the repo)
+
+Browser tests driven by puppeteer-core against Brave: main regression (37),
+Tom (26), sky (28), builder round-trip (16), multi-edition + archive (14).
+They are not committed; the repo stays npm-free.

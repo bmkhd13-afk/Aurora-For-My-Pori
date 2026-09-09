@@ -1,0 +1,28 @@
+/* ===========================================================================
+   GIRLFRIEND DAY - 1 August
+
+   The original look: aurora blues and teals, Cormorant Garamond, night sky.
+   This is the theme css/style.css already describes, so there is almost
+   nothing to override here - the file exists so that all four occasions work
+   the same way and this one has somewhere obvious to be adjusted.
+
+   Every rule starts with [data-occasion="girlfriend-day"].
+   =========================================================================== */
+
+[data-occasion="girlfriend-day"] #progressBar{
+
+background:linear-gradient(90deg,#6dd5ff,#ff2358);
+
+}
+
+[data-occasion="girlfriend-day"] .memoryNumber{
+
+color:#6dd5ff;
+
+}
+
+[data-occasion="girlfriend-day"] .sceneDivider span{
+
+color:#8bfff2;
+
+}

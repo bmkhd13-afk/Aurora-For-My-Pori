@@ -1,0 +1,149 @@
+/* ===========================================================================
+   OUR ANNIVERSARY - 13 April
+
+   Midnight turning to dawn. Deep red and gold, because 13 April is the eve
+   of Pohela Boishakh. Playfair Display for the big type.
+
+   Every rule starts with [data-occasion="anniversary"], so this file is
+   completely inert unless an anniversary edition is showing.
+   =========================================================================== */
+
+[data-occasion="anniversary"] #globalSky{
+
+background:#0b0406;
+
+}
+
+/* Aurora ribbons in crimson and gold instead of blue. */
+
+[data-occasion="anniversary"] .ribbon1{
+
+background:linear-gradient(90deg,transparent,#c2410c,#fbbf24,transparent);
+
+}
+
+[data-occasion="anniversary"] .ribbon2{
+
+background:linear-gradient(90deg,transparent,#9f1239,#fb7185,transparent);
+
+}
+
+[data-occasion="anniversary"] .ribbon3{
+
+background:linear-gradient(90deg,transparent,#b45309,#fde68a,transparent);
+
+}
+
+[data-occasion="anniversary"] h1,
+[data-occasion="anniversary"] h2,
+[data-occasion="anniversary"] #endingName{
+
+font-family:'Playfair Display',serif;
+
+}
+
+[data-occasion="anniversary"] h1{
+
+text-shadow:
+
+0 0 20px rgba(255,215,140,.18),
+
+0 0 60px rgba(220,60,60,.22);
+
+}
+
+[data-occasion="anniversary"] #progressBar{
+
+background:linear-gradient(90deg,#fbbf24,#e11d48);
+
+}
+
+/* A warm dawn glow at the top of the memories instead of the cool one. */
+
+[data-occasion="anniversary"] #chapter1{
+
+background:
+
+radial-gradient(circle at top,rgba(251,191,36,.2),transparent 38%),
+
+linear-gradient(180deg,rgba(12,5,8,.6),rgba(28,10,14,.44),rgba(38,16,12,.58));
+
+}
+
+[data-occasion="anniversary"] .memoryNumber{
+
+color:#fbbf24;
+
+}
+
+[data-occasion="anniversary"] .sceneDivider span{
+
+color:#fbbf24;
+
+}
+
+[data-occasion="anniversary"] button{
+
+border-color:rgba(251,191,36,.4);
+
+}
+
+[data-occasion="anniversary"] button:hover{
+
+background:rgba(251,191,36,.92);
+
+color:#2a0d10;
+
+box-shadow:0 0 45px rgba(251,191,36,.4);
+
+}
+
+/* The sky map reads gold on this theme. */
+
+[data-occasion="anniversary"] .skyHorizon{
+
+fill:rgba(14,5,8,.72);
+
+stroke:rgba(251,191,36,.32);
+
+}
+
+[data-occasion="anniversary"] .skyFigureLine{
+
+stroke:rgba(253,224,171,.42);
+
+}
+
+[data-occasion="anniversary"] .memoryLine{
+
+stroke:#fbbf24;
+
+filter:drop-shadow(0 0 1px rgba(251,191,36,.9));
+
+}
+
+[data-occasion="anniversary"] .star.active{
+
+background:#fbbf24;
+
+box-shadow:0 0 30px #fbbf24;
+
+}
+
+[data-occasion="anniversary"] .starLabel{
+
+color:#fde68a;
+
+}
+
+[data-occasion="anniversary"] #seal{
+
+background:radial-gradient(circle,#e11d48,#7f1d1d);
+
+}
+
+[data-occasion="anniversary"] .finaleStar{
+
+background:#fde68a;
+
+}

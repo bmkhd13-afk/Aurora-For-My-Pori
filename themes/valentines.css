@@ -1,0 +1,181 @@
+/* ===========================================================================
+   VALENTINE'S DAY - 14 February
+
+   Warm and close rather than loud. Deep crimson, rose light, and Libre
+   Baskerville, which is a quieter serif than the others.
+
+   Every rule starts with [data-occasion="valentines"], so this file is
+   completely inert unless a Valentine's edition is showing.
+   =========================================================================== */
+
+[data-occasion="valentines"] #globalSky{
+
+background:#12040a;
+
+}
+
+[data-occasion="valentines"] .ribbon1{
+
+background:linear-gradient(90deg,transparent,#be123c,#fda4af,transparent);
+
+}
+
+[data-occasion="valentines"] .ribbon2{
+
+background:linear-gradient(90deg,transparent,#831843,#f472b6,transparent);
+
+}
+
+[data-occasion="valentines"] .ribbon3{
+
+background:linear-gradient(90deg,transparent,#7f1d1d,#fecdd3,transparent);
+
+}
+
+[data-occasion="valentines"] h1,
+[data-occasion="valentines"] h2,
+[data-occasion="valentines"] #endingName{
+
+font-family:'Libre Baskerville',serif;
+
+letter-spacing:1px;
+
+}
+
+/* Baskerville runs large, so ease the headline sizes back a little. */
+
+[data-occasion="valentines"] h1{
+
+font-size:clamp(2.2rem,8vw,4.6rem);
+
+text-shadow:
+
+0 0 24px rgba(255,190,205,.2),
+
+0 0 60px rgba(190,18,60,.25);
+
+}
+
+[data-occasion="valentines"] h2{
+
+font-size:clamp(1.8rem,6vw,3.4rem);
+
+}
+
+[data-occasion="valentines"] h3{
+
+font-family:'Libre Baskerville',serif;
+
+font-style:italic;
+
+}
+
+[data-occasion="valentines"] #progressBar{
+
+background:linear-gradient(90deg,#fda4af,#be123c);
+
+}
+
+[data-occasion="valentines"] #chapter1{
+
+background:
+
+radial-gradient(circle at top,rgba(244,114,182,.18),transparent 40%),
+
+linear-gradient(180deg,rgba(18,4,10,.6),rgba(38,8,20,.46),rgba(26,6,14,.6));
+
+}
+
+[data-occasion="valentines"] .memoryNumber{
+
+color:#fda4af;
+
+}
+
+[data-occasion="valentines"] .sceneDivider span{
+
+color:#fda4af;
+
+}
+
+[data-occasion="valentines"] .memory img{
+
+border-radius:14px;
+
+box-shadow:0 25px 70px rgba(60,0,20,.6);
+
+}
+
+[data-occasion="valentines"] button{
+
+border-color:rgba(253,164,175,.42);
+
+}
+
+[data-occasion="valentines"] button:hover{
+
+background:rgba(253,164,175,.94);
+
+color:#3b0416;
+
+box-shadow:0 0 45px rgba(244,114,182,.42);
+
+}
+
+[data-occasion="valentines"] .skyHorizon{
+
+fill:rgba(20,4,12,.72);
+
+stroke:rgba(253,164,175,.3);
+
+}
+
+[data-occasion="valentines"] .skyFigureLine{
+
+stroke:rgba(254,205,211,.4);
+
+}
+
+[data-occasion="valentines"] .memoryLine{
+
+stroke:#fb7185;
+
+filter:drop-shadow(0 0 1px rgba(251,113,133,.9));
+
+}
+
+[data-occasion="valentines"] .star.active{
+
+background:#fb7185;
+
+box-shadow:0 0 30px #fb7185;
+
+}
+
+[data-occasion="valentines"] .starLabel{
+
+color:#fecdd3;
+
+}
+
+[data-occasion="valentines"] #seal{
+
+background:radial-gradient(circle,#fb7185,#881337);
+
+}
+
+/* Petals rather than falling stars. */
+
+[data-occasion="valentines"] .finaleStar{
+
+width:5px;
+
+height:5px;
+
+background:#fb7185;
+
+border-radius:60% 0 60% 0;
+
+opacity:.7;
+
+}
