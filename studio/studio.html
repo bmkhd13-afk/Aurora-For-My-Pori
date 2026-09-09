@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aurora Studio</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="/assets/icons/favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/studio/studio.css">
+</head>
+<body>
+
+<header class="top">
+  <div class="brand">
+    <span class="mark">✦</span>
+    <div>
+      <h1>Aurora Studio</h1>
+      <p id="branch">connecting…</p>
+    </div>
+  </div>
+  <div class="topActions">
+    <a class="btn ghost" href="/index.html" target="_blank">View website</a>
+    <a class="btn ghost" href="/check.html" target="_blank">Run checks</a>
+    <button class="btn primary" id="publishBtn">Publish</button>
+  </div>
+</header>
+
+<div class="shell">
+
+  <!-- ---------- left: the list of editions ---------- -->
+  <aside class="side">
+    <div class="sideHead">
+      <h2>Editions</h2>
+      <button class="btn small" id="newBtn">New</button>
+    </div>
+    <div id="list" class="list"></div>
+    <div class="sideNote">
+      Everything you save is written straight into the project.
+      Press <b>Publish</b> when you want it live.
+    </div>
+  </aside>
+
+  <!-- ---------- right: the editor ---------- -->
+  <main class="main" id="main">
+    <div class="empty" id="emptyState">
+      <div class="emptyArt">✦</div>
+      <h2>Pick an edition, or start a new one</h2>
+      <p>Every occasion, every year. Nothing is ever replaced.</p>
+    </div>
+
+    <div id="editor" hidden>
+
+      <div class="editorHead">
+        <div>
+          <h2 id="edTitle">—</h2>
+          <p id="edMeta" class="meta">—</p>
+        </div>
+        <div class="editorHeadActions">
+          <a class="btn ghost" id="previewBtn" target="_blank">Preview</a>
+          <button class="btn danger" id="deleteBtn">Delete</button>
+          <button class="btn primary" id="saveBtn">Save</button>
+        </div>
+      </div>
+
+      <nav class="tabs" id="tabs">
+        <button class="tab on" data-tab="basics">The basics</button>
+        <button class="tab" data-tab="photos">Memories</button>
+        <button class="tab" data-tab="sky">Night sky</button>
+        <button class="tab" data-tab="letter">Letter</button>
+        <button class="tab" data-tab="ending">Ending</button>
+      </nav>
+
+      <!-- basics -->
+      <section class="pane on" data-pane="basics">
+        <div class="card">
+          <div class="row2">
+            <div>
+              <label>Occasion</label>
+              <select id="f_occasion">
+                <option value="girlfriend-day">Girlfriend Day — 1 August</option>
+                <option value="anniversary">Our Anniversary — 13 April</option>
+                <option value="valentines">Valentine's Day — 14 February</option>
+                <option value="birthday">Her Birthday — 22 December</option>
+              </select>
+            </div>
+            <div>
+              <label>Year</label>
+              <input id="f_year" type="number" min="2020" max="2100">
+            </div>
+          </div>
+          <p class="hint" id="dateHint"></p>
+        </div>
+
+        <div class="card">
+          <label>Loading line <span class="sub">the first thing she sees</span></label>
+          <input id="f_loader">
+
+          <label>Small line above the title</label>
+          <input id="f_dedication">
+
+          <label>The big title</label>
+          <input id="f_title">
+
+          <label>Line under the title</label>
+          <input id="f_subtitle">
+
+          <label>Button</label>
+          <input id="f_button">
+        </div>
+
+        <div class="card">
+          <label>Music</label>
+          <div class="row2">
+            <select id="f_music"></select>
+            <button class="btn ghost" id="musicUploadBtn">Add a music file…</button>
+          </div>
+          <input type="file" id="musicFile" accept="audio/*" hidden>
+          <p class="hint">Keep it under about 2.5&nbsp;MB and make sure it loops nicely.
+             You can add this later — the page just stays silent until you do.</p>
+          <audio id="musicPreview" controls hidden style="width:100%;margin-top:10px"></audio>
+        </div>
+
+        <div class="card">
+          <label>Scenes to include</label>
+          <div class="checks" id="f_scenes"></div>
+          <p class="hint">A scene with nothing in it is skipped automatically,
+             so you can leave these all ticked.</p>
+        </div>
+      </section>
+
+      <!-- photos -->
+      <section class="pane" data-pane="photos">
+        <div class="card">
+          <div class="drop" id="drop">
+            <b>Drag photos here</b><br>
+            <span class="sub">or click to choose them — they are copied into this
+            edition's folder for you</span>
+          </div>
+          <input type="file" id="photoFiles" accept="image/*" multiple hidden>
+          <p class="hint" id="folderHint"></p>
+        </div>
+        <div id="memories"></div>
+        <button class="btn ghost wide" id="addBlank">Add a memory without a photo</button>
+      </section>
+
+      <!-- sky -->
+      <section class="pane" data-pane="sky">
+        <div class="card">
+          <label class="switch">
+            <input type="checkbox" id="f_hasSky"> <span>Include the real night sky</span>
+          </label>
+          <div id="skyFields">
+            <div class="row3">
+              <div><label>Date</label><input id="f_skyDate" type="date"></div>
+              <div><label>Time</label><input id="f_skyTime" type="time"></div>
+              <div><label>Place</label>
+                <select id="f_skyPlace">
+                  <option>Dhaka</option><option>Shahjahanpur</option><option>Mohammadpur</option>
+                </select></div>
+            </div>
+            <div id="skyInfo" class="skyInfo"></div>
+          </div>
+        </div>
+
+        <div class="card" id="starCard">
+          <label>Memory stars <span class="sub">each one pins a memory to a real star</span></label>
+          <div id="stars"></div>
+          <button class="btn ghost wide" id="addStar">Add a star</button>
+        </div>
+      </section>
+
+      <!-- letter -->
+      <section class="pane" data-pane="letter">
+        <div class="card">
+          <label>The letter <span class="sub">typed out one character at a time</span></label>
+          <textarea id="f_letter" rows="16"></textarea>
+          <p class="hint">Leave it empty and the envelope scene is skipped.</p>
+        </div>
+      </section>
+
+      <!-- ending -->
+      <section class="pane" data-pane="ending">
+        <div class="card">
+          <label>Words that appear one after another</label>
+          <div id="seq"></div>
+          <button class="btn ghost" id="addSeq">Add a step</button>
+        </div>
+        <div class="card">
+          <label>Closing message <span class="sub">a blank line starts a new paragraph</span></label>
+          <textarea id="f_finaleMsg" rows="10"></textarea>
+          <label>Sign-off</label>
+          <input id="f_signoff">
+        </div>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<!-- publish dialog -->
+<div class="modal" id="publishModal" hidden>
+  <div class="modalBox">
+    <h2>Publish</h2>
+    <p class="meta" id="changeCount">—</p>
+    <pre id="changeList"></pre>
+    <label>What changed?</label>
+    <input id="commitMsg" value="Update the website">
+    <div class="modalActions">
+      <button class="btn ghost" id="cancelPublish">Not now</button>
+      <button class="btn primary" id="doPublish">Commit and upload</button>
+    </div>
+    <div id="publishResult" class="publishResult"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast" hidden></div>
+
+<script src="/js/star-catalog.js"></script>
+<script src="/js/sky.js"></script>
+<script src="/js/edition-format.js"></script>
+<script src="/studio/studio.js"></script>
+</body>
+</html>

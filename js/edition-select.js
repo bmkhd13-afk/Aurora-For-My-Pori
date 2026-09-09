@@ -83,6 +83,36 @@ return sortEditionsNewestFirst(EDITIONS).pop();
 
 EDITION=chooseEdition();
 
+/* If there is genuinely nothing to show - no editions listed, or every one of
+   them was unreadable - hand the rest of the site an empty edition rather
+   than null. Everything downstream reads EDITION without checking, so a null
+   here used to take the whole page down with it. */
+if(!EDITION){
+
+EDITION={
+
+id:"none",occasion:"girlfriend-day",occasionName:"",year:"",
+
+date:new Date(),source:"no edition",
+
+title:"Nothing here yet",
+
+subtitle:"",
+
+dedication:"",
+
+button:"",
+
+loader:"No editions found. Open check.html to see why.",
+
+music:"",cover:"",photoBase:"",
+
+settings:{},memories:[],letter:"",finale:{},constellation:[],scenes:["hero"]
+
+};
+
+}
+
 if(EDITION){
 
 // The theme is chosen by this attribute; every themes/*.css file is scoped
@@ -143,18 +173,6 @@ finale:"finale"
 
 if(EDITION&&EDITION.scenes){
 
-for(const scene in SCENE_SECTIONS){
-
-if(EDITION.scenes.indexOf(scene)===-1){
-
-const el=document.getElementById(SCENE_SECTIONS[scene]);
-
-if(el) el.style.display="none";
-
-}
-
-}
-
 EDITION.scenes.forEach(s=>{
 
 if(!SCENE_SECTIONS[s]){
@@ -166,5 +184,34 @@ Object.keys(SCENE_SECTIONS).join(", ")+".");
 }
 
 });
+
+}
+
+/* A scene is shown when the edition asks for it AND there is something to put
+   in it. An edition with no memories used to render an empty full-height
+   section; now that section simply is not there. */
+function sceneHasContent(scene){
+
+if(scene==="memories") return EDITION.memories.length>0;
+
+if(scene==="constellation") return EDITION.constellation.length>0;
+
+if(scene==="letter") return !!(EDITION.letter&&EDITION.letter.trim());
+
+return true;   // hero and finale always have something
+
+}
+
+for(const scene in SCENE_SECTIONS){
+
+const wanted=!EDITION.scenes||EDITION.scenes.indexOf(scene)!==-1;
+
+if(!wanted||!sceneHasContent(scene)){
+
+const el=document.getElementById(SCENE_SECTIONS[scene]);
+
+if(el) el.style.display="none";
+
+}
 
 }

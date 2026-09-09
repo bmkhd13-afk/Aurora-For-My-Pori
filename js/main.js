@@ -24,6 +24,10 @@ document.getElementById("bgMusic").src=EDITION.music;
 
 setTimeout(() => {
 
+    // With nothing to show, keep the loader up with its explanation rather
+    // than revealing an empty page.
+    if(EDITION.id==="none") return;
+
     loader.style.display = "none";
     website.style.display = "block";
     setTimeout(()=>{
@@ -182,6 +186,20 @@ ${divider}
 }).join("");
 
 container.innerHTML=memoryHTML;
+
+/* If a photo is missing, hide the broken-image icon rather than showing her a
+   torn page. check.html is where you find out which file is missing. */
+container.querySelectorAll("img").forEach(img=>{
+
+img.addEventListener("error",()=>{
+
+img.style.display="none";
+
+img.closest(".memory")?.classList.add("noPhoto");
+
+});
+
+});
 
 const observer=new IntersectionObserver(entries=>{
 
