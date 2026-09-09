@@ -99,7 +99,9 @@ function loadScript(src){
     return;
   }
 
-  const files=[...html.matchAll(/<script\s+src="(editions\/[^"]+)"/g)].map(m=>m[1]);
+  // The link may carry a ?v= cache stamp; keep the plain path.
+  const files=[...html.matchAll(/<script\s+src="(editions\/[^"?]+\.js)(?:\?[^"]*)?"/g)]
+    .map(m=>m[1]);
 
   out.innerHTML="";
 

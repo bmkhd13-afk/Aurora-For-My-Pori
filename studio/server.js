@@ -84,7 +84,26 @@ function readIndex() { return fs.readFileSync(path.join(ROOT, "index.html"), "ut
 
 function listEditionFiles() {
   const html = readIndex();
-  return [...html.matchAll(/<script\s+src="(editions\/[^"]+\.js)"/g)].map(m => m[1]);
+  // The link may carry a ?v= cache stamp, so stop at the ? and ignore it.
+  return [...html.matchAll(/<script\s+src="(editions\/[^"?]+\.js)(?:\?[^"]*)?"/g)]
+    .map(m => m[1]);
+}
+
+/* Browsers hang on to stylesheets and scripts hard, and GitHub Pages caches
+   them too. Without this you change something, reload, and see the old page -
+   which looks exactly like the change never happened. Every local css/js link
+   carries a ?v= stamp, and bumping it makes every browser fetch fresh copies.
+   Called on every save and every publish, so it is never something to
+   remember. */
+function bumpCacheVersion() {
+  const file = path.join(ROOT, "index.html");
+  let html = fs.readFileSync(file, "utf8");
+  const stamp = Date.now().toString(36);
+  html = html.replace(
+    /(href|src)="((?:css|themes|js|editions)\/[^"?]+\.(?:css|js))(\?v=[^"]*)?"/g,
+    (m, attr, p) => attr + '="' + p + "?v=" + stamp + '"');
+  fs.writeFileSync(file, html, "utf8");
+  return stamp;
 }
 
 // Put the given edition files into the EDITIONS block, oldest first.
@@ -168,6 +187,8 @@ const api = {
         "Add the line <script src=\"" + rel + "\"></script> between them by hand." });
     }
 
+    bumpCacheVersion();
+
     json(res, 200, { ok: true, file: rel, listed: files });
   },
 
@@ -220,6 +241,9 @@ const api = {
   async "POST /api/publish"(req, res) {
     const body = JSON.parse((await readBody(req, 64 * 1024)).toString("utf8"));
     const message = String(body.message || "Update the website").slice(0, 500);
+
+    // Make sure the freshly published files are actually fetched by browsers.
+    bumpCacheVersion();
 
     const status = await git(["status", "--porcelain"]);
     if (!status.ok) return json(res, 200, { ok: false, step: "status", error: status.err });

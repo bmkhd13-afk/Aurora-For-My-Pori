@@ -237,7 +237,8 @@ function addEdition(text,sourceName){
 
 if(!sourceName&&typeof document!=="undefined"&&document.currentScript){
 
-sourceName=document.currentScript.src.split("/").pop();
+// Drop any ?v= cache stamp so problem messages name a real file.
+sourceName=document.currentScript.src.split("/").pop().split("?")[0];
 
 }
 
