@@ -207,4 +207,11 @@ const FIGURES = {
                ["shaula","sargas"]]
 };
 
-module.exports = { STARS, FIGURES };
+/* This file is read two ways: as a plain <script> in the browser (STARS and
+   FIGURES become globals) and by tools/sky/generate.js under Node. The guard
+   below is what lets Node import it without breaking the browser. */
+if(typeof module!=="undefined"&&module.exports){
+
+module.exports={STARS:STARS,FIGURES:FIGURES};
+
+}

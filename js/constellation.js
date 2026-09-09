@@ -1,9 +1,13 @@
 /* Our Constellation.
 
-   The backdrop is the real sky over Dhaka at 5:30 PM on 13 April 2026,
-   generated into js/skydata.js. On top of it sit the five memory stars,
-   each anchored to a real named star that was actually above us that
-   evening. Click all five to unlock the secret.
+   The backdrop is the real sky of whatever moment the current edition names:
+
+       sky: 2027-04-13 21:00
+       sky-place: Dhaka
+
+   js/sky.js works that out in the browser, so a new edition needs nothing
+   pre-generated. On top of it sit the memory stars, each pinned to a real
+   named star that was genuinely above that place at that moment.
 
    Everything is drawn in one SVG with a 0..100 viewBox, so the geometry is
    exact. The old version measured line lengths with Math.sqrt(dx*dx+dy*dy)
@@ -15,10 +19,25 @@
 const sky=document.getElementById("sky");
 const popup=document.getElementById("memoryPopup");
 const popupTitle=document.getElementById("popupTitle");
+const popupText=document.getElementById("popupText");
+
 /* The memory stars come from the --- star --- blocks in the current edition.
-   Each anchor is the id of a real star in the sky data, so a memory is pinned
-   to a star that was genuinely above us that night. */
+   Each anchor is the id of a real star, so a memory is pinned to a star that
+   was genuinely above us that night. */
 const starData=EDITION.constellation||[];
+
+// The sky this edition asks for. Falls back to the anniversary evening.
+const SKY=computeSky(EDITION.sky||{
+
+year:2026,month:4,day:13,hour:17.5,place:"Dhaka"
+
+});
+
+const SKY_STARS=SKY.stars;
+
+const SKY_LINES=SKY.lines;
+
+const SKY_META=SKY.meta;
 
 const SVG_NS="http://www.w3.org/2000/svg";
 
