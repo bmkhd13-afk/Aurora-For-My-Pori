@@ -15,43 +15,10 @@
 const sky=document.getElementById("sky");
 const popup=document.getElementById("memoryPopup");
 const popupTitle=document.getElementById("popupTitle");
-const popupText=document.getElementById("popupText");
-
-/* Each memory is pinned to a real star that was up that evening.
-   Rigel for the blue saree is not an accident: it is a blue supergiant. */
-const starData=[
-
-{
-anchor:"sirius",
-title:"Our First Date",
-text:"Where our story quietly began."
-},
-
-{
-anchor:"rigel",
-title:"Blue Saree",
-text:"The day my heart skipped a beat."
-},
-
-{
-anchor:"capella",
-title:"North End",
-text:"Apparently we needed social distancing."
-},
-
-{
-anchor:"regulus",
-title:"Sonargaon",
-text:"The day my Pori looked heavenly."
-},
-
-{
-anchor:"pollux",
-title:"InterContinental",
-text:"Home is wherever you're smiling."
-}
-
-];
+/* The memory stars come from the --- star --- blocks in the current edition.
+   Each anchor is the id of a real star in the sky data, so a memory is pinned
+   to a star that was genuinely above us that night. */
+const starData=EDITION.constellation||[];
 
 const SVG_NS="http://www.w3.org/2000/svg";
 

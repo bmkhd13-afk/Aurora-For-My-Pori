@@ -94,26 +94,32 @@ stopFinaleStars();
 });
 
 },{
-threshold:.6
+
+/* Fires when the finale overlaps the middle half of the screen.
+
+   This used to be threshold:.6 - "60% of the section is on screen" - which
+   quietly stops working once the section grows taller than about 1.7 screens,
+   because 60% of it can never fit in the viewport at once. A longer ending
+   message in some future edition would have silently killed both the falling
+   stars and the replay. Measuring against a band of the screen instead works
+   for a section of any height. */
+
+rootMargin:"-25% 0px -25% 0px",
+
+threshold:0
+
 });
 
 finaleObserver.observe(document.getElementById("finale"));
 
 function playEnding(){
 
-const sequence=[
+// The name sequence comes from the current edition's finale block.
+const sequence=EDITION.finale.sequence&&EDITION.finale.sequence.length
 
-"Umme",
+?EDITION.finale.sequence
 
-"Umme Arefin",
-
-"Umme Arefin Akhand",
-
-"Umme Arefin Akhand Momo",
-
-"❤️ My Pori ❤️"
-
-];
+:[EDITION.title];
 
 let i=0;
 
@@ -139,60 +145,37 @@ endingMessage.style.opacity=1;
 endingName.style.transition="2s ease";
 endingMessage.style.transition="2s ease";
 
-endingMessage.innerHTML=`
+/* The ending message and sign-off come from the current edition. Blank lines
+   in the edition file become the paragraph breaks. */
+endingMessage.innerHTML=
 
-In every universe...
+EDITION.finale.message
 
-<br><br>
+.replace(/&/g,"&amp;")
 
-In every lifetime...
+.replace(/</g,"&lt;")
 
-<br><br>
+.split(/\n{2,}/)
 
-In every version of our story...
+.map(part=>part.trim().replace(/\n/g,"<br>"))
 
-<br><br>
+.filter(Boolean)
 
-I'd still choose you.
-You'd still choose me.
+.join("<br><br>")
 
-<br><br>
++(EDITION.finale.signoff
 
-Thank you for being
+?'<br><br><span style="font-size:0.9rem;opacity:.7;">'+
 
-my peace,
+EDITION.finale.signoff
 
-my biggest smile,
+.replace(/&/g,"&amp;")
 
-my biggest blessing,
+.replace(/</g,"&lt;")+
 
-my best friend,
+"</span>"
 
-my love of my life
-
-<br><br>
-
-Happy Girlfriend Day,
-
-<br><br>
-
-My Pori.
-
-❤️
-
-<br><br>
-
-<span style="font-size:0.9rem;opacity:.7;">
-
-Made with love by Dhrubo
-
-for his
-
-Momo
-
-</span>
-
-`;
+:"");
 if(!document.getElementById("replayButton")){
 
     const replay=document.createElement("button");

@@ -1,6 +1,27 @@
 const loader = document.getElementById("loader");
 const website = document.getElementById("website");
 
+/* Fill the loader and the hero from whichever edition is showing. Doing this
+   before the loader hides means none of it is ever seen changing. */
+
+document.getElementById("loaderText").textContent=EDITION.loader;
+
+document.getElementById("heroLine").textContent=EDITION.dedication;
+
+document.getElementById("heroTitle").textContent=EDITION.title;
+
+document.getElementById("heroSubtitle").innerHTML=
+
+EDITION.subtitle.replace(/\s+for\s+/i,"<br>for<br>");
+
+document.getElementById("beginBtn").textContent=EDITION.button;
+
+if(EDITION.music){
+
+document.getElementById("bgMusic").src=EDITION.music;
+
+}
+
 setTimeout(() => {
 
     loader.style.display = "none";
@@ -116,11 +137,11 @@ const escapeAttr=s=>String(s)
 .replace(/"/g,"&quot;")
 .replace(/</g,"&lt;");
 
-const memoryHTML=memories.map((memory,index)=>{
+const memoryHTML=EDITION.memories.map((memory,index)=>{
 
 const side=index%2===0?"left":"right";
 
-const divider=index<memories.length-1
+const divider=index<EDITION.memories.length-1
 ?`<div class="sceneDivider"><span>✦</span></div>`
 :"";
 
@@ -131,7 +152,7 @@ return `
 
 <section class="memory ${side}">
 
-<img src="${memory.image}"
+<img src="${memory.src}"
 alt="${escapeAttr(memory.title)}"
 width="${memory.w}"
 height="${memory.h}"

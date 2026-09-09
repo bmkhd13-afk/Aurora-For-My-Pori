@@ -51,7 +51,7 @@
 
     <div id="loader">
 
-        <h1>Gathering our favorite memories... ❤️</h1>
+        <h1 id="loaderText">Gathering our favorite memories... ❤️</h1>
 
     </div>
 
@@ -82,45 +82,21 @@
         <!-- HERO -->
 
         <section id="hero">
-            
 
 <div id="lightOverlay"></div>
 
-    <!-- Aurora Layers -->
-   
-
-    <!-- Stars -->
-    
-
-    <!-- Dark Overlay -->
     <div class="hero-overlay"></div>
 
-    <!-- Content -->
+    <!-- All four lines below are filled in from the current edition file. -->
     <div class="overlay">
 
-        <h3 id="heroLine">
+        <h3 id="heroLine"></h3>
 
-For the girl who turned ordinary nights into auroras...
+        <h1 id="heroTitle"></h1>
 
-</h3>
+        <p id="heroSubtitle"></p>
 
-        <h1 id="heroTitle">
-
-My Pori ❤️
-
-</h1>
-
-        <p id="heroSubtitle">
-            An Interactive Story
-            <br>
-            for
-            <br>
-            Umme Arefin Akhand Momo
-        </p>
-
-        <button id="beginBtn" class="heroItem">
-            ✨ Take My Hand
-        </button>
+        <button id="beginBtn" class="heroItem"></button>
 
     </div>
 
@@ -209,10 +185,26 @@ My Pori ❤️
     </main>
 
 
-<audio id="bgMusic" loop preload="metadata">
-    <source src="assets/music/theme.mp3" type="audio/mpeg">
-</audio>
-<script src="js/memories.js"></script>
+<!-- The music file comes from the current edition. -->
+<audio id="bgMusic" loop preload="metadata"></audio>
+<!-- Reads the edition files. You never need to change this. -->
+<script src="js/edition-format.js"></script>
+
+<!-- =====================================================================
+     EDITIONS
+
+     One line per edition, oldest first. To add a new one, copy the line
+     below, change the name, and make sure the file exists in editions/.
+     Nothing else in this file ever needs to change.
+     ===================================================================== -->
+
+<script src="editions/2026-girlfriend-day.js"></script>
+
+<!-- ================== END OF EDITIONS ================== -->
+
+<!-- Picks whichever edition is current and applies its theme. -->
+<script src="js/edition-select.js"></script>
+
 <script src="js/skydata.js"></script>
 <script src="js/constellation.js"></script>
 <script src="js/letter.js"></script>

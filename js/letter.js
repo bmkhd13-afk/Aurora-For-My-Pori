@@ -4,44 +4,8 @@ const paper=document.getElementById("paper");
 
 const text=document.getElementById("letterText");
 
-const letter=`
-
-Happy Girlfriend Day, My Pori.
-
-If someone asked me what my favorite memory is...
-
-I'd probably smile...
-
-because choosing just one would be impossible.
-
-Thank you for every laugh.
-
-Every conversation.
-
-Every journey.
-
-Every little moment that slowly became part of my life.
-
-You make ordinary days feel special.
-
-You make ordinary places become memories.
-
-You make ordinary nights...
-
-feel like auroras.
-
-I hope one day...
-
-when we look back at all these memories...
-
-we'll smile the exact same way we do now.
-
-I love you.
-
-Always.
- 
- Your Dhrubo ❤️
-`;
+// The letter text comes from the current edition file.
+const letter="\n\n"+EDITION.letter+"\n";
 
 envelope.onclick=()=>{
 
