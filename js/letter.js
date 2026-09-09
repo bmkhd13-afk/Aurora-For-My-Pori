@@ -4,8 +4,10 @@ const paper=document.getElementById("paper");
 
 const text=document.getElementById("letterText");
 
-// The letter text comes from the current edition file.
-const letter="\n\n"+EDITION.letter+"\n";
+/* The letter text comes from the current edition file, typed out one
+   character at a time. Its line breaks are kept (see white-space:pre-wrap on
+   #letterText), so no padding newlines here - they would show as a gap. */
+const letter=String(EDITION.letter||"").trim();
 
 envelope.onclick=()=>{
 
@@ -16,6 +18,16 @@ setTimeout(()=>{
 paper.style.display="block";
 
 paper.style.animation="paperRise 1s forwards";
+
+/* Reserve the letter's finished height before a single character is typed.
+   Without this the paper grows for the whole ~18 seconds it takes to type,
+   shoving everything below it down the page - so if she scrolls ahead while
+   it is still writing, the finale keeps sliding away from under her. */
+text.textContent=letter;
+
+text.style.minHeight=text.offsetHeight+"px";
+
+text.textContent="";
 
 const music=document.getElementById("bgMusic");
 

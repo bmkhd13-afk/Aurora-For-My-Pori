@@ -3020,22 +3020,62 @@ button:focus-visible{
 #letter{
   padding:130px 22px;
 }
+/* The letter is the one light surface in the whole site - cream paper with
+   dark ink. Every colour here has to be set explicitly: the site-wide light
+   text would be invisible on it, which is exactly what happened. */
+
 #paper{
+  --paper:#fdf8ef;
+  --paper-ink:#2e2a24;
+  --paper-ink-soft:rgba(46,42,36,.8);
+  --paper-line:rgba(46,42,36,.16);
+  background:var(--paper);
+  color:var(--paper-ink);
   border-radius:20px;
-  border:1px solid rgba(255,255,255,.12);
+  border:1px solid rgba(46,42,36,.1);
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.1),
+    inset 0 1px 0 rgba(255,255,255,.6),
     0 50px 110px rgba(0,0,0,.55);
 }
 #paper h2{
   font-size:clamp(1.8rem,4vw,2.6rem);
   font-weight:500;
   margin-bottom:26px;
+  color:var(--paper-ink);
 }
 #letterText{
   font-size:clamp(1rem,1.2vw,1.1rem);
   line-height:2.1;
-  color:var(--ink-dim);
+  color:var(--paper-ink-soft);
+  /* The letter is written with deliberate line breaks - a line at a time,
+     with pauses between. HTML collapses those into spaces, which turned it
+     into one run-on paragraph. This keeps it as it was written. */
+  white-space:pre-wrap;
+}
+
+/* The "Continue to the Sky" button sits on that paper, so it needs ink
+   colours too - the site-wide white-on-glass button vanished against it. */
+#paper button,
+#continueFinale{
+  color:var(--paper-ink);
+  background:rgba(46,42,36,.045);
+  border:1px solid var(--paper-line);
+  backdrop-filter:none;
+  -webkit-backdrop-filter:none;
+  box-shadow:none;
+}
+#paper button:hover,
+#continueFinale:hover{
+  color:var(--paper);
+  background:var(--paper-ink);
+  border-color:var(--paper-ink);
+  box-shadow:0 14px 34px rgba(46,42,36,.28);
+}
+#paper button:focus-visible,
+#continueFinale:focus-visible{
+  outline:none;
+  border-color:var(--paper-ink);
+  box-shadow:0 0 0 3px rgba(46,42,36,.2);
 }
 
 /* ---------- finale ---------- */
