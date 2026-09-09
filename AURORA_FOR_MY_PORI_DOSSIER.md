@@ -550,3 +550,81 @@ template, the builder, the README and the guide.
 Browser tests driven by puppeteer-core against Brave: main regression (37),
 Tom (26), sky (28), builder round-trip (16), multi-edition + archive (14).
 They are not committed; the repo stays npm-free.
+
+---
+
+## 14. Aurora Studio and the premium pass (September 2026)
+
+### The studio
+
+The owner asked to never touch code again, and for edits to end up in git.
+A page served over `file://` or Live Server can do neither, so there is a tiny
+local server.
+
+- `Edit Website.bat` — what the owner double-clicks. Checks for Node, then runs
+  the server. Must keep CRLF line endings (pinned in `.gitattributes`) or the
+  multi-line `if (` block breaks.
+- `studio/server.js` — zero-dependency Node HTTP server on `127.0.0.1:4321`.
+  Serves the site, and exposes a small API: list/save/delete editions, upload
+  photos and music, `git status`, and commit+push. Every path from the browser
+  goes through `safePath()` which resolves it and refuses anything outside the
+  project folder.
+- `studio/studio.{html,css,js}` — the editor. Reads edition files by running
+  them through `new Function("addEdition", text)`, i.e. exactly how the browser
+  reads them, so escapes behave identically.
+
+Save writes the edition file **and** rewrites the `EDITIONS` block in
+`index.html` between `<!-- EDITIONS:START -->` and `<!-- EDITIONS:END -->`.
+Those two markers are the contract; the decorated comment around them is just
+for humans and can be reworded.
+
+### The backtick problem is solved
+
+The studio escapes `` ` `` and `${` when writing. A template literal unescapes
+them on load, so arbitrary text now round-trips. Verified end to end with a
+title of ``My `Pori` ❤️ ${test}``.
+
+Hand-edited files can still be broken by a stray backtick. The studio marks
+such an edition "needs fixing" rather than failing silently.
+
+### Robustness
+
+Deliberately broken inputs are covered by `robusttest.js`:
+
+- No editions at all → a placeholder EDITION so nothing dereferences null, and
+  the loader stays up explaining itself.
+- An edition with no memories / letter / stars → those sections are skipped
+  rather than rendered empty. `sceneHasContent()` in `edition-select.js`.
+- A missing photo → the broken image is hidden.
+- One unreadable edition file → the others still work.
+
+### The premium pass
+
+`css/style.css` ends with a section marked **PREMIUM PASS**. Because the
+stylesheet has long-standing duplicate selectors, the refined look is layered
+there rather than by editing the older rules. Same specificity, later in the
+file. This is the place to adjust the feel.
+
+Notable: a fine SVG film grain on `body::after` is what stops the large flat
+gradients reading as plastic. The memory layout is a two-column editorial grid
+with a constrained measure. The hero is a title card. The button no longer
+pulses.
+
+### Two traps worth remembering
+
+- **`[hidden]` loses to any author `display` rule.** `.modal{display:flex}`
+  left the publish overlay invisible over the whole editor swallowing clicks.
+  `studio.css` now has `[hidden]{display:none!important}`.
+- **The finale trigger is `rootMargin`, not a threshold.** A ratio threshold
+  silently stops working once a section is taller than the viewport. It is
+  `-45% 0px -45% 0px` so the finale must reach the middle of the screen — at
+  -25% it began while the letter was still being read.
+
+### builder.html was removed
+
+It and the studio did the same job differently. The studio supersedes it.
+
+### Test suites (scratchpad, not committed)
+
+main 37, Tom 26, sky 28, robustness 10, archive 14, studio 20. The studio suite
+works on a throwaway git clone and asserts a real commit is made.
