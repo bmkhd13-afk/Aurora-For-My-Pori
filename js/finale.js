@@ -104,7 +104,11 @@ stopFinaleStars();
    stars and the replay. Measuring against a band of the screen instead works
    for a section of any height. */
 
-rootMargin:"-25% 0px -25% 0px",
+/* The band is the middle tenth of the screen, so the finale has to actually
+   reach the centre before it starts. At -25% it began while the letter was
+   still being read, which meant the falling stars and the name sequence
+   started underneath her before she had finished. */
+rootMargin:"-45% 0px -45% 0px",
 
 threshold:0
 

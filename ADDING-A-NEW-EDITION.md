@@ -4,88 +4,60 @@ An *edition* is one occasion in one year — Valentine's 2027, her birthday
 2028, and so on. Nothing is ever replaced. Every edition you add stays on the
 shelf forever.
 
-There are four occasions:
-
-| Occasion | Date | Name to use |
-|---|---|---|
-| Girlfriend Day | 1 August | `girlfriend-day` |
-| Our Anniversary | 13 April | `anniversary` |
-| Valentine's Day | 14 February | `valentines` |
-| Her Birthday | 22 December | `birthday` |
+| Occasion | Date |
+|---|---|
+| Girlfriend Day | 1 August |
+| Our Anniversary | 13 April |
+| Valentine's Day | 14 February |
+| Her Birthday | 22 December |
 
 ---
 
-## The short version
+## The whole thing, in one place
 
-1. Open **`builder.html`** with Live Server.
-2. Fill it in, drag the photos on, press **Download**.
-3. Put the downloaded file in the `editions` folder.
-4. Put the photos in the folder the builder names.
-5. Add the one line it gives you to `index.html`.
-6. Open **`check.html`** with Live Server to confirm it is all correct.
+**Double-click `Edit Website.bat`.**
 
-That's it. You never type any code.
+A black window opens and stays open, and your browser opens **Aurora Studio**.
+That is the editor. Everything below happens there.
+
+When you're finished, close the black window.
+
+> The black window is a small program running on your own computer. It is what
+> lets the editor save files and upload to GitHub — a normal web page is not
+> allowed to do either. Nobody else can reach it.
 
 ---
 
-## The longer version
+## Making a new edition
 
-### 1. Open the builder
+1. Press **New** on the left.
+2. Choose the occasion and the year. The date fills itself in.
+3. Work through the tabs across the top:
 
-Right-click `builder.html` in VS Code → **Open with Live Server**.
+**The basics** — the loading line, the small line above the title, the big
+title, the line underneath, and the button. Pick the music here too, or add a
+new file with *Add a music file…*
 
-Pick the occasion and the year. The date fills itself in.
+**Memories** — drag your photos in, in the order you want them. Each one gets
+a title and a story. The photos are copied into this edition's folder for you,
+and their sizes are read automatically so the page never jumps as they load.
+Use ↑ and ↓ to reorder, ✕ to remove.
 
-### 2. Write it
+**Night sky** — tick the box and pick a date, time and place. It tells you how
+many stars were above you and **warns you if the sun was still up** at that
+time. Then add memory stars: each one pins a memory to a real star, chosen from
+a list of only the stars that were actually in the sky that night.
 
-Fill in the title, the small line above it, the button, and so on. The
-defaults are the ones from the first edition, so you can leave most of them.
+**Letter** — the letter she reads. Leave it empty to skip the envelope scene.
 
-For the **music**, type the path to the file, like
-`assets/music/valentines.mp3`, and put that mp3 in `assets/music/`. Try to
-keep music files under about 2.5 MB so the page stays quick on her phone.
+**Ending** — the words that appear one after another, the closing message, and
+the sign-off.
 
-### 3. Drag the photos in
+4. Press **Save**. That writes the edition and adds it to the website.
+5. Press **Publish**. It shows you what changed, you type a short note, and it
+   commits and uploads to GitHub.
 
-Drag them all at once, in the order you want them to appear. The builder
-reads each photo's size automatically, which is what stops the page from
-jumping about as the photos load.
-
-Give each one a title and its story. A blank line starts a new paragraph.
-
-### 4. The night sky (optional)
-
-Give it a date and a time and it will draw the sky exactly as it was — the
-real stars, in their real positions, over Dhaka.
-
-It tells you underneath how many stars were up. **If you pick a time before
-sunset it will warn you** that the sun was still up, so it would be a
-daylight sky. After about 7pm is safe.
-
-Leave the date empty if this edition should not have a star map.
-
-### 5. Download and file it
-
-Press **Download**. Then:
-
-- Move the downloaded file into the **`editions`** folder.
-- Make the photo folder the builder names — something like
-  `assets/editions/2027-valentines/` — and put the same photos in it,
-  **with the same file names**.
-- Open `index.html`, scroll to the block that says `EDITIONS`, and paste in
-  the line the builder gives you. It looks like this:
-
-```html
-<script src="editions/2027-valentines.js"></script>
-```
-
-That is the only line you ever add to `index.html`.
-
-### 6. Check it
-
-Open `check.html` with Live Server. It reads everything and tells you, in
-plain English, about any missing photo, missing music file, or star that
-wasn't in the sky that night. If it says "Everything looks good", you're done.
+That's it. No files to move, no lines to paste, no code.
 
 ---
 
@@ -93,35 +65,60 @@ wasn't in the sky that night. If it says "Everything looks good", you're done.
 
 **On its date, by itself.**
 
-The site always shows the most recent edition whose date has passed. So you
-can finish the birthday edition in October and commit it — she'll still see
-the previous occasion until 22 December, when the birthday one takes over on
-its own.
+The site always shows the most recent edition whose date has passed. So you can
+finish the birthday edition in October and publish it — she'll still see the
+previous occasion until 22 December, when the birthday one takes over on its
+own.
 
-To look at one before its date, add `?preview=` and its name:
+The **Preview** button in the editor lets you see it early. A small banner
+appears at the bottom so you never mistake a preview for the live page.
 
-```
-index.html?preview=2027-valentines
-```
-
-A small banner appears at the bottom so you never mistake a preview for the
-live page.
-
-To see the shelf of everything so far:
-
-```
-index.html?archive
-```
-
-A link to it also appears at the end of the story once there is more than
-one edition.
+To see everything so far, open the website and add `?archive` to the address.
+A link to it also appears at the end of the story once there is more than one
+edition.
 
 ---
 
-## Editing by hand instead
+## Adding photos and music later
 
-If you just want to fix a typo, open the edition file in VS Code and edit the
-text. It is ordinary writing, not code:
+You don't have to have everything ready. Make the edition now with just the
+words, save it, and come back closer to the day to drag the photos in.
+
+An edition with no memories simply skips that part of the story rather than
+showing an empty space. Same for the letter and the constellation.
+
+Music is the same — the page is just silent until you add a file. Keep music
+under about 2.5 MB and make sure it loops without an obvious seam.
+
+---
+
+## Fixing something later
+
+Open the studio, click the edition on the left, change whatever you like, press
+Save, then Publish. Every piece of text on the site is a field in there.
+
+---
+
+## If something looks wrong
+
+Open **check.html** (there's a *Run checks* button in the studio). It reads
+everything and tells you in plain English about any missing photo, missing
+music file, bad date, or star that wasn't in the sky that night.
+
+**If the studio won't start**, the black window will say why. Almost always it
+is that Node.js isn't installed — get it from nodejs.org, install it, and
+double-click `Edit Website.bat` again.
+
+**If the studio says an edition "needs fixing"**, that file has a typo in its
+code part. Open it in VS Code: the first line must be `` addEdition(` `` and
+the last line must be `` `); ``. Everything between them is ordinary text.
+
+---
+
+## Editing files by hand (you don't have to)
+
+The studio is the easy way, but the edition files are deliberately readable, so
+you can edit one in VS Code if you prefer:
 
 ```
 occasion: valentines
@@ -136,28 +133,8 @@ We laughed for an hour.
 Then it rained.
 ```
 
-Two rules:
+A blank line starts a new paragraph. `editions/_template.js` is a blank one
+with every option explained.
 
-1. **Do not delete the first line (`addEdition(\``) or the last line
-   (`` `); ``).** Those two are the only actual code in the file.
-2. **Do not use the ` character** (backtick) anywhere in your writing — that
-   is the character that marks where your text ends. Apostrophes, quotes,
-   commas, emoji and Bangla are all completely fine.
-
-`editions/_template.js` is a blank one with every option explained. Copy it if
-you would rather start from scratch.
-
----
-
-## If something goes wrong
-
-**Open `check.html` first.** It is built to tell you what is wrong in plain
-language.
-
-If the page is completely blank, it is almost always rule 2 above — a
-backtick somewhere in the text. Open the browser console (F12) and it will
-say `Invalid or unexpected token` with the file name.
-
-Everything else — a missing photo, a bad date, a star that wasn't up — is
-handled gracefully. That one field is skipped, the rest of the site keeps
-working, and `check.html` will tell you about it.
+If you do edit by hand, don't delete the first line or the last line — those
+two are the only actual code in the file.

@@ -10,10 +10,14 @@ it with VS Code's Live Server and it just runs.
 
 ## Running it on your computer
 
-1. Open the project folder in VS Code.
-2. Right-click `index.html` → **Open with Live Server**.
-3. If a change doesn't show up, hard-refresh with **Ctrl+Shift+R**. CSS is
-   cached aggressively and a normal refresh often shows the old version.
+Double-click **`Edit Website.bat`**. It opens the editor and serves the real
+website at the same time — the links along the top take you to both.
+
+Or, if you only want to look at the site: right-click `index.html` in VS Code
+and choose **Open with Live Server**.
+
+If a change doesn't show up, hard-refresh with **Ctrl+Shift+R**. CSS is cached
+aggressively and a normal refresh often shows the old version.
 
 ---
 
@@ -24,9 +28,12 @@ replaced — the site keeps all of them, and shows the most recent one whose
 date has passed. So next year's file can sit there finished for months and
 take over by itself on the day.
 
-**Read [ADDING-A-NEW-EDITION.md](ADDING-A-NEW-EDITION.md).** The short
-version: open `builder.html` with Live Server, fill it in, drag the photos on,
-press Download — then open `check.html` to confirm it is all correct.
+**Double-click `Edit Website.bat`.** That opens Aurora Studio, where every
+piece of text on the site is an editable field: press New, fill it in, drag
+the photos on, press Save, then Publish. It writes the files, updates
+`index.html` and commits to git for you.
+
+Full walkthrough: **[ADDING-A-NEW-EDITION.md](ADDING-A-NEW-EDITION.md)**.
 
 The four occasions are Girlfriend Day (1 August), Our Anniversary (13 April),
 Valentine's Day (14 February) and her Birthday (22 December). Each has its
@@ -42,10 +49,14 @@ Useful addresses:
 ## Project structure
 
 ```
+Edit Website.bat         double-click this - it opens the editor
 index.html               the shell - renders whichever edition is current
-builder.html             fill in a form, get a new edition file
 check.html               tells you in plain English if anything is wrong
 ADDING-A-NEW-EDITION.md  how to add next year's
+
+studio/                  the editor (never deployed, runs on your machine)
+  server.js              writes files and runs git; nothing else can
+  studio.html  studio.css  studio.js
 
 editions/
   _template.js           copy this to start a new edition
@@ -114,10 +125,10 @@ it genuinely restricted, GitHub Pages is not the right host.
 **Music needs a click first.** Browsers block audio that plays on its own, so
 the theme starts when the hero button is pressed. That's deliberate.
 
-**Never put a backtick (`` ` ``) in an edition file's text.** That character
-is what marks where the text begins and ends, so one of them will break the
-whole file. It is the only character that matters. The builder warns you if
-you type one.
+**Backticks are fine now.** The studio escapes them when it writes, so you can
+type whatever you like. If you edit a file by hand instead, a stray `` ` ``
+will still break that one file - the studio and check.html will both tell you
+which file to look at.
 
 **The stylesheet has duplicate selectors.** It grew over time, and several
 selectors (`#hero`, `.overlay`, `.memory`, `.memory img`, `button`) are
@@ -131,9 +142,14 @@ selector — there is probably another copy further down overriding you.
 
 **Photo sizes live in the edition file.** Each memory has `width:` and
 `height:` matching the real pixel size of its photo, so the browser reserves
-the right space while lazy-loading and nothing jumps. The builder fills these
+the right space while lazy-loading and nothing jumps. The studio fills these
 in automatically. If you swap a photo by hand for one of a different size,
 update those two numbers too.
+
+**The look lives at the bottom of `css/style.css`.** The stylesheet grew over
+time and has duplicate selectors, so rather than untangle it the refined
+styling is layered on at the end in a section marked PREMIUM PASS. That is the
+place to adjust the feel of the site.
 
 **Photos are large.** The 11 photos in the first edition total about 7 MB.
 They load lazily, so only what she scrolls to is downloaded. If you want it
