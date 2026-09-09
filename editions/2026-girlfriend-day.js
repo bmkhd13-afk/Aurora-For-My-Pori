@@ -1,8 +1,8 @@
 /* ---------------------------------------------------------------------
-   Girlfriend Day 2026 - the original.
+   Girlfriend Day 2026
 
-   Only the first line (addEdition) and the last line are code.
-   Everything between the backticks is plain text you can edit freely.
+   Written by Aurora Studio. You can edit this by hand if you like -
+   only the addEdition line below and the last line are code.
    --------------------------------------------------------------------- */
 
 addEdition(`
@@ -15,11 +15,9 @@ subtitle: An Interactive Story for Umme Arefin Akhand Momo
 button: ✨ Take My Hand
 loader: Gathering our favorite memories... ❤️
 music: assets/music/theme.mp3
+
 sky: 2026-04-13 17:30
 sky-place: Dhaka
-
-# The photos for this edition live in
-# assets/editions/2026-girlfriend-day/
 
 --- memory ---
 photo: photo1.jpg
@@ -235,7 +233,7 @@ title: InterContinental
 Home is wherever you're smiling.
 
 --- letter ---
-Happy Girlfriend Day, My Pori.
+Happy Girlfriend Day of 2026, My Pori.
 
 If someone asked me what my favorite memory is...
 
@@ -284,7 +282,7 @@ I'd still choose you. You'd still choose me.
 
 Thank you for being my peace, my biggest smile, my biggest blessing, my best friend, my love of my life
 
-Happy Girlfriend Day,
+Happy Girlfriend Day 2026,
 
 My Pori. ❤️
 
